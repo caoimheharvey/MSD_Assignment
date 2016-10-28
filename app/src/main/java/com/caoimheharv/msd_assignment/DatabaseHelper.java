@@ -40,4 +40,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_3);
         onCreate(db);
     }
+
+
+    /*
+    CODE TO INSERT A NEW ROW INTO TABLE
+     */
+
+    /*
+    CODE TO UPDATE A ROW
+     */
+
+    /*
+    CODE TO DELETE A ROW
+     */
+
+    /*
+    CODE TO VIEW ALL
+     */
 }
