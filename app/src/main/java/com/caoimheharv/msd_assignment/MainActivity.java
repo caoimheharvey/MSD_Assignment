@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    public DatabaseHelper myDB;
+
     int[] temp = {1234, 0000, 1984};
 
     Button verify;
@@ -20,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        myDB = new DatabaseHelper(this);
 
         verify = (Button) findViewById(R.id.contBtn);
         passcode = (EditText) findViewById(R.id.passcode);
