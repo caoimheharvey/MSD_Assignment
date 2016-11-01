@@ -31,26 +31,25 @@ public class MainActivity extends AppCompatActivity {
         verify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(passcode.getText().toString().isEmpty())
+                if(passcode.getText().toString().isEmpty()) {
                     Toast.makeText(MainActivity.this, "MUST ENTER PIN", Toast.LENGTH_SHORT).show();
-                else
+                }
+                else {
                     pin = Integer.parseInt(passcode.getText().toString());
 
 
-                boolean check = false;
-                for (int i = 0; i < temp.length; i++)
-                {
-                    if (pin == temp[i]){
-                        check = true;
-                        Intent intent = new Intent(MainActivity.this, AdminMenu.class);
-                        startActivity(intent);
-                        break;
-                    }
-                    else {
-                        check = false;
+                    boolean check = false;
+                    for (int i = 0; i < temp.length; i++) {
+                        if (pin == temp[i]) {
+                            check = true;
+                            Intent intent = new Intent(MainActivity.this, AdminMenu.class);
+                            startActivity(intent);
+                            break;
+                        } else {
+                            check = false;
+                        }
                     }
                 }
-
 
             }
         });

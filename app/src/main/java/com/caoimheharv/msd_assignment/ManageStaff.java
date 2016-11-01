@@ -12,7 +12,7 @@ public class ManageStaff extends AppCompatActivity {
 
     DatabaseHelper myDB;
 
-    Button add, del, update, viewAll;
+    Button add, update, viewAll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +22,6 @@ public class ManageStaff extends AppCompatActivity {
         myDB = new DatabaseHelper(this);
 
         add = (Button) findViewById(R.id.addBtn);
-        del = (Button) findViewById(R.id.removeStaff);
         update = (Button) findViewById(R.id.updateBtn);
         viewAll = (Button) findViewById(R.id.viewStaff);
 
@@ -34,6 +33,7 @@ public class ManageStaff extends AppCompatActivity {
             }
         });
 
+        //ALLOWS ADMIN TO VIEW ALL STAFF CURRENTLY IN SYSTEM
         viewAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,14 +58,6 @@ public class ManageStaff extends AppCompatActivity {
                 // Show all data
                 showMessage("Staff Members", buffer.toString());
 
-            }
-        });
-
-        del.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(ManageStaff.this, delPage.class);
-                startActivity(i);
             }
         });
 
