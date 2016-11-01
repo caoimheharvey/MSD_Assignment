@@ -50,13 +50,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /*
     CODE TO INSERT A NEW ROW INTO TABLE
      */
-    public boolean insert(String TABLE_NAME, String name, String email, String phone, int spin, String status){
+    public boolean insert(String TABLE_NAME, String name, String email, String phone, int pin, String status){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("staff_name", name);
         contentValues.put("staff_email", email);
         contentValues.put("staff_phone", phone);
-        contentValues.put("pin", spin);
+        contentValues.put("pin", pin);
         contentValues.put("status", status);
         long res = db.insert(TABLE_NAME, null, contentValues);
         if(res == -1)
@@ -68,10 +68,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /*
     CODE TO UPDATE A ROW
      */
+    public boolean updateData(String table, String id, String name, String email, String phone, int pin, String status) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("staff_name",name);
+        contentValues.put("staff_email", email);
+        contentValues.put("staff_phone", phone);
+        contentValues.put("status", status);
+        contentValues.put("pin",pin);
+        db.update(table, contentValues, "staff_no = ?",new String[] { id });
+        return true;
+    }
 
     /*
     CODE TO DELETE A ROW
      */
+
+    public Integer deleteData (String table, String id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(table, "staff_no = ?",new String[] {id});
+    }
 
     /*
     CODE TO GET SPECIFIC STAFF BY STAFF_NO
@@ -94,4 +110,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor res = db.rawQuery("select * from "+ table ,null);
         return res;
     }
+
 }

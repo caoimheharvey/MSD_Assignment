@@ -45,10 +45,11 @@ public class addStaffForm extends AppCompatActivity {
                 if(status.getText().toString().isEmpty())
                     status.setText("Standard");
 
-                if(pin.getText().toString().isEmpty()) {
+                if(pin.getText().toString().isEmpty())
                     Toast.makeText(addStaffForm.this, "You need to enter a PIN", Toast.LENGTH_SHORT).show();
+                else
                     pinparsed = Integer.parseInt(pin.getText().toString());
-                }
+
 
                 boolean success = myDB.insert("Staff", name.getText().toString(), email.getText().toString(),
                         phone.getText().toString(), pinparsed, status.getText().toString());

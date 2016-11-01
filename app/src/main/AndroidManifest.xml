@@ -18,7 +18,8 @@
         <activity android:name=".AdminMenu" />
         <activity android:name=".ManageStaff" />
         <activity android:name=".addStaffForm" />
-        <activity android:name=".delPage"></activity>
+        <activity android:name=".delPage" />
+        <activity android:name=".updateStaff"></activity>
     </application>
 
 </manifest>

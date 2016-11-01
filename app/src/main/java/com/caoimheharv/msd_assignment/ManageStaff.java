@@ -68,6 +68,14 @@ public class ManageStaff extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ManageStaff.this, updateStaff.class);
+                startActivity(i);
+            }
+        });
     }
 
     private void showMessage(String title,String Message){

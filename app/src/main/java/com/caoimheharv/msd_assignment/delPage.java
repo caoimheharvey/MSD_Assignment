@@ -60,8 +60,14 @@ public class delPage extends AppCompatActivity {
                     status.setText(res.getString(4));
                     pin.setText(res.getString(5));
                 }
-                //name.setText(res.getString(1).toString());
 
+
+                // OPTIONAL: Add alert Dialog
+                Integer deletedRows = myDb.deleteData("Staff", staff_id.getText().toString());
+                if(deletedRows > 0)
+                    Toast.makeText(delPage.this,"Staff Member Removed",Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(delPage.this,"ERROR: Could not delete",Toast.LENGTH_SHORT).show();
             }
         });
 
