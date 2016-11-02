@@ -69,6 +69,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /*
+    CODE TO INSERT A NEW ROW INTO THE SHIFT TABLE
+     */
+    public boolean insertShift(int staff_no, String start_time, String end_time, String date){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("staff_no", staff_no);
+        contentValues.put("end_time", end_time);
+        contentValues.put("start_time", start_time);
+        contentValues.put("start_date", date);
+        long res = db.insert(TABLE_2, null, contentValues);
+        if(res == -1)
+            return false;
+        else
+            return true;
+    }
+
+    /*
     CODE TO UPDATE A ROW IN THE STAFF TABLE
      */
     public boolean updateStaff(String id, String name, String email, String phone, int pin, String status) {
