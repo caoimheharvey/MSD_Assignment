@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 /**
  * Created by CaoimheHarvey on 10/28/16.
+ * Database: BusinessClocking
+ * Contains 3 tables which all link up using the staff_no.
+ * Here exists the code to create tables, update rows, insert rows, and delete rows.
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -99,6 +102,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return res;
     }
 
+    /*
+    CODE TO GRANT ACCESS IF IN SYSTEM
+     */
+    public Cursor checkAccess()
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("SELECT pin FROM staff", null);
+        return res;
+    }
     /*
     CODE TO VIEW ALL
      */

@@ -124,9 +124,10 @@
             <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New Switch"
+                android:text="Standard"
                 android:id="@+id/switch1"
-                android:layout_column="2" />
+                android:layout_column="2"
+                android:checked="false" />
 
         </TableRow>
 

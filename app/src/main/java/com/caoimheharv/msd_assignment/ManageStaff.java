@@ -8,6 +8,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+/**
+ * Allows admin to select from 3 different actions.
+ * 1. Viewing all staff members and their details which exist in the database without leaving the page
+ * 2. Adding a new Staff member
+ * 3. Editing existing staff members
+ */
 public class ManageStaff extends AppCompatActivity {
 
     DatabaseHelper myDB;

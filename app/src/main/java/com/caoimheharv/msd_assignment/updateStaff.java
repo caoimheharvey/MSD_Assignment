@@ -9,6 +9,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+/**
+ * Concered with updating the information in a specific row, or deleting a specific row
+ */
+
 public class updateStaff extends AppCompatActivity {
 
     DatabaseHelper myDB;

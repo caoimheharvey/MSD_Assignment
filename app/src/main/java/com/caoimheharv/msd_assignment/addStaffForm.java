@@ -9,7 +9,9 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
-//TO DO: Read In Pin
+/**
+ * Concerned with the creation of new rows in the Staff Table
+ */
 
 public class addStaffForm extends AppCompatActivity {
 

@@ -6,6 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+/**
+ * ADMINMENU: Allows the admin to select one of 4 options to proceed with once they
+ * have logged in.
+ * Uses simple Intent to link to the appropiate action.
+ */
+
 public class AdminMenu extends AppCompatActivity {
 
     Button clocking, staff, shifts, settings;
