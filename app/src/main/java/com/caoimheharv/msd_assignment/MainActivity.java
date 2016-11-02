@@ -58,11 +58,19 @@ public class MainActivity extends AppCompatActivity {
                     boolean checked = true;
 
                     for (int i = 0; i < stored.length; i++) {
-                        if (pin == parsed[i] || pin == 1996) {
-                            //check status
-                            checkStatus(status[i]);
-                            passcode.setText("");
-                            break;
+                        if (pin == parsed[i] || pin == 201116) {
+                            //OVERRIDE
+                            if(pin == 201116) {
+                                Toast.makeText(MainActivity.this, "OVERRIDE", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(MainActivity.this, AdminMenu.class);
+                                startActivity(intent);
+                            }
+                            else {
+                                //check status
+                                checkStatus(status[i]);
+                                passcode.setText("");
+                                break;
+                            }
                         } else {
                             checked = false;
                         }

@@ -127,7 +127,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor search(String query)
     {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery(query, null);
+        Cursor res = db.rawQuery(query, null);//////////
         return res;
     }
 

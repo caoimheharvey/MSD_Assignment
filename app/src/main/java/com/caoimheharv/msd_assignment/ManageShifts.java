@@ -15,7 +15,6 @@ public class ManageShifts extends AppCompatActivity {
     DatabaseHelper myDB;
 
     CalendarView calview;
-
     Button view, add, edit;
 
     String selectedDate;
@@ -50,27 +49,39 @@ public class ManageShifts extends AppCompatActivity {
             }
         });
 
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Cursor res = myDB.getAllData("Shift");
+                Cursor res = myDB.search("SELECT shift.staff_no, staff_name, start_date, start_time, end_time FROM SHIFT" +
+                        " INNER JOIN STAFF ON shift.staff_no = staff.staff_no");
 
                 if (res.getCount() == 0) {
                     // show message
-                    showMessage("Error", "Nothing found");
+                    showMessage("Shifts: " + selectedDate, "No Shifts");
                     return;
                 }
 
                 StringBuffer buffer = new StringBuffer();
                 while (res.moveToNext()) {
-                    buffer.append("Staff No:" + res.getString(0) + "\n");
-                    //buffer.append("Name:" + res.getString(1) + "\n");
-                    buffer.append("Date:" + res.getString(1) + "\n");
-                    buffer.append( res.getString(3) + " - " + res.getString(4) + "\n\n");
+                   // buffer.append("Staff No:" + res.getString(0) + "\n");
+
+                    //TODO: ERROR CHECKING
+                    if(selectedDate.equals(res.getString(2))) {
+                        buffer.append("Name:" + res.getString(1) + ", " + res.getString(0) + "\n");
+                        buffer.append("Date:" + res.getString(2) + "\n");
+                        buffer.append(res.getString(3) + " - " + res.getString(4) + "\n\n");
+                    }
                 }
 
                 // Show all data
-                showMessage("Staff Members", buffer.toString());
+                showMessage("Shifts", buffer.toString());
             }
         });
     }
