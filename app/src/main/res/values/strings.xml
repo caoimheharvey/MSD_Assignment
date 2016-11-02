@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MSD_Assignment</string>
+    <string name="title_activity_manage_shifts">ManageShifts</string>
 </resources>

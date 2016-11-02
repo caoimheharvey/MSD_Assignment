@@ -18,7 +18,9 @@
         <activity android:name=".AdminMenu" />
         <activity android:name=".ManageStaff" />
         <activity android:name=".addStaffForm" />
-        <activity android:name=".updateStaff"></activity>
+        <activity android:name=".updateStaff" />
+        <activity android:name=".ManageShifts" />
+        <activity android:name=".addShift"></activity>
     </application>
 
 </manifest>

@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     int pin;
     String[] stored = new String[50];
     int[] parsed = new int[50];
+    String[] status = new String[50];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,14 +41,14 @@ public class MainActivity extends AppCompatActivity {
         verify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(passcode.getText().toString().isEmpty()) {
+                if (passcode.getText().toString().isEmpty()) {
                     Toast.makeText(MainActivity.this, "MUST ENTER PIN", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Cursor res = myDB.checkAccess();
+                } else {
+                    Cursor res = myDB.search("SELECT pin, status FROM STAFF");
                     int x = 0;
-                    while(res.moveToNext()) {
+                    while (res.moveToNext()) {
                         stored[x] = res.getString(0);
+                        status[x] = res.getString(1);
                         parsed[x] = Integer.parseInt(stored[x]);
                         x++;
                     }
@@ -58,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
 
                     for (int i = 0; i < stored.length; i++) {
                         if (pin == parsed[i] || pin == 1996) {
-                            Intent intent = new Intent(MainActivity.this, AdminMenu.class);
-                            startActivity(intent);
+                            //check status
+                            checkStatus(status[i]);
                             passcode.setText("");
                             break;
                         } else {
@@ -67,11 +68,27 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
 
-                    if(!checked)
+                    if (!checked) {
                         Toast.makeText(MainActivity.this, "Not recognized pin", Toast.LENGTH_SHORT).show();
-                }
+                        passcode.setText("");
+                    }//end if
 
-            }
-        });
+                }//end else
+            }//end inner annoynymous
+        });//end verify
+    }//end onCreate
+
+    private void checkStatus(String status)
+    {
+        if(status.equals("Admin")) {
+            Toast.makeText(MainActivity.this, "Admin", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(MainActivity.this, AdminMenu.class);
+            startActivity(intent);
+        }
+        else {
+            Toast.makeText(MainActivity.this, "Standard", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(MainActivity.this, AdminMenu.class);
+            startActivity(intent);
+        }
     }
 }

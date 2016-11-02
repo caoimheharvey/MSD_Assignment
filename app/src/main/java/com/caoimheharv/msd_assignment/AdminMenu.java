@@ -44,7 +44,8 @@ public class AdminMenu extends AppCompatActivity {
         shifts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent i = new Intent(AdminMenu.this, ManageShifts.class);
+                startActivity(i);
             }
         });
 

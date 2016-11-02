@@ -103,6 +103,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /*
+    CODE TO GET SPECIFIC X
+    one of the parameters is the entirety of the select statement which is read in
+     */
+
+    public Cursor search(String query)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery(query, null);
+        return res;
+    }
+
+    /*
     CODE TO GRANT ACCESS IF IN SYSTEM
      */
     public Cursor checkAccess()
