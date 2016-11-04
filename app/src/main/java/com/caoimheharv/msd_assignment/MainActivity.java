@@ -55,13 +55,12 @@ public class MainActivity extends AppCompatActivity {
 
                     pin = Integer.parseInt(passcode.getText().toString());
 
-                    boolean checked = true;
+                    int count = 0;
 
                     for (int i = 0; i < stored.length; i++) {
-                        if (pin == parsed[i] || pin == 201116) {
+                        if (pin == parsed[i] || pin == 212) {
                             //OVERRIDE
-                            if(pin == 201116) {
-                                Toast.makeText(MainActivity.this, "OVERRIDE", Toast.LENGTH_SHORT).show();
+                            if(pin == 212) {
                                 Intent intent = new Intent(MainActivity.this, AdminMenu.class);
                                 startActivity(intent);
                             }
@@ -69,18 +68,17 @@ public class MainActivity extends AppCompatActivity {
                                 //check status
                                 checkStatus(status[i]);
                                 passcode.setText("");
-                                break;
                             }
+                            break;
                         } else {
-                            checked = false;
+                            count ++;
                         }
                     }
 
-                    if (!checked) {
+                    if (count == stored.length) {
                         Toast.makeText(MainActivity.this, "Not recognized pin", Toast.LENGTH_SHORT).show();
                         passcode.setText("");
                     }//end if
-
                 }//end else
             }//end inner annoynymous
         });//end verify

@@ -13,6 +13,7 @@ import android.widget.TextView;
  */
 public class StaffCursorAdapter extends CursorAdapter {
     public StaffCursorAdapter(Context context, Cursor c) {
+        //NOT WORKING
         super(context, c, 0);
     }
 
@@ -42,7 +43,7 @@ public class StaffCursorAdapter extends CursorAdapter {
         email.setText(mail);
         phone.setText(num);
         pin.setText(passcode);
-        status.setText(stat); //not displaying for some reason
+        status.setText(stat);
 
     }
 }

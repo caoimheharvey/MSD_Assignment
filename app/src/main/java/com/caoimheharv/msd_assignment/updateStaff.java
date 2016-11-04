@@ -19,11 +19,11 @@ public class updateStaff extends AppCompatActivity {
 
     DatabaseHelper myDB;
 
-    Button update, cancel, delete;
+    private Button update, cancel, delete;
 
-    EditText name, email, phone, pin;
+    private EditText name, email, phone, pin;
 
-    Switch status;
+    private Switch status;
 
     String getID, get_name, get_mail, get_phone, get_pin, get_status;
     int staff_no, intPin;
@@ -73,7 +73,6 @@ public class updateStaff extends AppCompatActivity {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 staff_no = Integer.parseInt(getID);
 
                 Integer deletedRows = myDB.deleteData("Staff", getID);
@@ -81,7 +80,6 @@ public class updateStaff extends AppCompatActivity {
                     Toast.makeText(updateStaff.this,"Staff Member Removed",Toast.LENGTH_SHORT).show();
                 else
                     Toast.makeText(updateStaff.this,"ERROR: Could not delete",Toast.LENGTH_SHORT).show();
-
                 finish();
             }
         });
@@ -95,6 +93,7 @@ public class updateStaff extends AppCompatActivity {
                 finish();
             }
         });
+
 
         status.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

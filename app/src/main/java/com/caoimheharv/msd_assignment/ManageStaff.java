@@ -21,8 +21,6 @@ public class ManageStaff extends AppCompatActivity {
 
     DatabaseHelper myDB;
 
-    updateStaff uS = new updateStaff();
-
     Button add, update;
 
     private ListView listView;
@@ -46,18 +44,21 @@ public class ManageStaff extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        try {
+            Cursor res = myDB.search("SELECT * FROM staff");
 
-        Cursor res = myDB.search("SELECT * FROM staff");
+            if (res.getCount() == 0) {
+                // show message
+                showMessage("Error", "Nothing found");
+                return;
+            }
 
-        if (res.getCount() == 0) {
-            // show message
-            showMessage("Error", "Nothing found");
-            return;
+            //NOT WORKING
+            StaffCursorAdapter cursorAdapter = new StaffCursorAdapter(getApplicationContext(), res);
+            listView.setAdapter(cursorAdapter);
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "FAILED TO OPEN DATABASE", Toast.LENGTH_SHORT).show();
         }
-
-        ShiftCursorAdapter cursorAdapter = new ShiftCursorAdapter(getApplicationContext(), res);
-        listView.setAdapter(cursorAdapter);
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> av, View view, int position, long arg) {
@@ -75,7 +76,6 @@ public class ManageStaff extends AppCompatActivity {
         });
     }
 
-
     private void showMessage(String title,String Message){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
@@ -83,5 +83,4 @@ public class ManageStaff extends AppCompatActivity {
         builder.setMessage(Message);
         builder.show();
     }
-
 }

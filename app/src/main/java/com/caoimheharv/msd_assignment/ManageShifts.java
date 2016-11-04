@@ -43,35 +43,23 @@ public class ManageShifts extends AppCompatActivity {
                 Toast.makeText(ManageShifts.this, dayOfMonth + "/" + (month + 1) + "/" + year, Toast.LENGTH_SHORT).show();
                 selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
 
+                //NOT WORKING
                 Cursor res = myDB.search("SELECT shift._id, staff_name, start_date, start_time, end_time FROM SHIFT" +
-                        " INNER JOIN STAFF ON shift._id = staff._id");
+                        " INNER JOIN STAFF ON shift._id = staff._id");//
 
                 if (res.getCount() == 0) {
                     // show message
                     showMessage("Shifts: " + selectedDate, "No Shifts");
                     return;
                 }
-
-
-                ShiftCursorAdapter cursorAdapter = new ShiftCursorAdapter(ManageShifts.this, res);
-                listView.setAdapter(cursorAdapter);
-
-
-
-               /* StringBuffer buffer = new StringBuffer();
-                while (res.moveToNext()) {
-                    // buffer.append("Staff No:" + res.getString(0) + "\n");
-
-                    //TODO: ERROR CHECKING
-                    if(selectedDate.equals(res.getString(2))) {
-                        buffer.append("Name:" + res.getString(1) + ", " + res.getString(0) + "\n");
-                        buffer.append("Date:" + res.getString(2) + "\n");
-                        buffer.append(res.getString(3) + " - " + res.getString(4) + "\n\n");
-                    }
+                try {
+                    ShiftCursorAdapter cursorAdapter = new ShiftCursorAdapter(ManageShifts.this, res);
+                    listView.setAdapter(cursorAdapter);
+                } catch (Exception e)
+                {
+                    Toast.makeText(getApplicationContext(), "Internal Failure", Toast.LENGTH_SHORT).show();
                 }
 
-                // Show all data
-                showMessage("Shifts", buffer.toString());*/
             }
         });
 
@@ -88,14 +76,15 @@ public class ManageShifts extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> av, View view, int position, long arg) {
                 Cursor mycursor = (Cursor) av.getItemAtPosition(position);
-                String selection = mycursor.getString(1);
 
                 Intent i = new Intent(getApplicationContext(), updateShift.class);
+                i.putExtra("ID", mycursor.getString(0));
+                i.putExtra("NAME", mycursor.getString(1));
+                i.putExtra("DATE", mycursor.getString(2));
+                i.putExtra("STARTTIME", mycursor.getString(3));
+                i.putExtra("ENDTIME", mycursor.getString(4));
                 startActivity(i);
 
-
-                Toast toast = Toast.makeText(getApplicationContext(), selection, Toast.LENGTH_SHORT);
-                toast.show();
             }
         });
     }

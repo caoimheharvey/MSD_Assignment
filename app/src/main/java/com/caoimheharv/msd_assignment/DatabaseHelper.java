@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 
+import java.sql.SQLException;
+
 /**
  * Created by CaoimheHarvey on 10/28/16.
  * Database: BusinessClocking
@@ -24,8 +26,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
-        //SQLiteDatabase db = this.getWritableDatabase();
-
     }
 
     /*
@@ -33,13 +33,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_1 + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+        db.execSQL("create table if not exists " + TABLE_1 + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "staff_name TEXT, staff_email TEXT, staff_phone TEXT, pin INTEGER, status TEXT)");
         db.execSQL("create table " + TABLE_2 + " ( _id INTEGER PRIMARY KEY, " +
                 "start_date TEXT, end_date TEXT, start_time TEXT, end_time TEXT)");
         db.execSQL("create table " + TABLE_3 + " ( _id INTEGER PRIMARY KEY, " +
                 "date_in TEXT, date_out TEXT, time_in TEXT, time_out TEXT)");
-
     }
 
     @Override
@@ -102,22 +101,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /*
+    CODE TO UPDATE A ROW IN THE SHIFT TABLE
+     */
+    public boolean updateShift(String id, String date, String starttime, String endtime) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("start_date",date);
+        contentValues.put("start_time", starttime);
+        contentValues.put("end_time", endtime);
+        db.update(TABLE_2, contentValues, "_id = ?",new String[] { id });
+        return true;
+    }
+
+    /*
     CODE TO DELETE A ROW
      */
 
     public Integer deleteData (String table, String id) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(table, "_id = ?",new String[] {id});
-    }
-
-    /*
-    CODE TO GET SPECIFIC STAFF BY STAFF_NO
-     */
-    public Cursor getStaff(String table, int id_no)
-    {
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + table + " WHERE " + id_no + " = _id", null);
-        return res;
     }
 
     /*
@@ -128,18 +130,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor search(String query)
     {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery(query, null);
-        return res;
-    }
-
-
-    /*
-    CODE TO VIEW ALL
-     */
-    public Cursor getAllData(String table)
-    {
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("select * from "+ table ,null);
+        Cursor res = db.rawQuery(query, null);//
         return res;
     }
 

@@ -21,7 +21,8 @@
         <activity android:name=".updateStaff" />
         <activity android:name=".ManageShifts" />
         <activity android:name=".addShift" />
-        <activity android:name=".updateShift"></activity>
+        <activity android:name=".updateShift" />
+        <activity android:name=".Settings"></activity>
     </application>
 
 </manifest>

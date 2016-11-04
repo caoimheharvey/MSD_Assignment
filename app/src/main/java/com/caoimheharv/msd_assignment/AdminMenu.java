@@ -52,7 +52,8 @@ public class AdminMenu extends AppCompatActivity {
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent i = new Intent(getApplicationContext(), Settings.class);
+                startActivity(i);
             }
         });
     }
