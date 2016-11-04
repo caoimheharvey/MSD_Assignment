@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
             Toast.makeText(MainActivity.this, "Standard", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(MainActivity.this, AdminMenu.class);
+            Intent intent = new Intent(MainActivity.this, standardMenu.class);
             startActivity(intent);
         }
     }

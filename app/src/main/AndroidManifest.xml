@@ -22,7 +22,16 @@
         <activity android:name=".ManageShifts" />
         <activity android:name=".addShift" />
         <activity android:name=".updateShift" />
-        <activity android:name=".Settings"></activity>
+        <activity android:name=".Settings" />
+        <activity
+            android:name=".standardMenu"
+            android:label="@string/title_activity_standard_menu"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.caoimheharv.msd_assignment.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
