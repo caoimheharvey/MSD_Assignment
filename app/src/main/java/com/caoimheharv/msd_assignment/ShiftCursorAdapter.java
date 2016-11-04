@@ -13,12 +13,12 @@ import android.widget.TextView;
  */
 public class ShiftCursorAdapter extends CursorAdapter {
     public ShiftCursorAdapter(Context context, Cursor c) {
-        super(context, c, 0);//
+        super(context, c, 0);
     }
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.row, parent, false);
+        return LayoutInflater.from(context).inflate(R.layout.shift_row, parent, false);
     }
 
     @Override
@@ -28,13 +28,13 @@ public class ShiftCursorAdapter extends CursorAdapter {
         TextView times = (TextView) view.findViewById(R.id.timesTV);
 
         String name, id, starttime, endtime, day;
-        //id = cursor.getString(0);
+        id = cursor.getString(0);
         name = cursor.getString(1);
         day = cursor.getString(2);
         starttime = cursor.getString(3);
         endtime = cursor.getString(4);
 
-        name_num.setText(name);
+        name_num.setText(name + " (" + id + ")");
         date.setText(day);
         times.setText(starttime + "-" + endtime);
     }

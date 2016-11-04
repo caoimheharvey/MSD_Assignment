@@ -20,7 +20,8 @@
         <activity android:name=".addStaffForm" />
         <activity android:name=".updateStaff" />
         <activity android:name=".ManageShifts" />
-        <activity android:name=".addShift"></activity>
+        <activity android:name=".addShift" />
+        <activity android:name=".updateShift"></activity>
     </application>
 
 </manifest>

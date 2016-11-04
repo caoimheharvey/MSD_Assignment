@@ -9,124 +9,81 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.caoimheharv.msd_assignment.updateStaff">
 
-    <TableLayout
-        android:layout_width="match_parent"
+    <EditText
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0.6"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/showName"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/tableLayout2">
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:text="Name" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:id="@+id/showMail"
+        android:layout_below="@+id/showName"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="Email"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Staff ID:"
-                android:id="@+id/textView6"
-                android:layout_column="0" />
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:ems="10"
+        android:id="@+id/showNum"
+        android:layout_below="@+id/showMail"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:text="Phone" />
 
-            <EditText
-                android:layout_width="450px"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:ems="10"
-                android:id="@+id/getId"
-                android:layout_column="1" />
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/showPin"
+        android:layout_below="@+id/showNum"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:text="Pin" />
 
-            <Button
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Get Staff"
-                android:id="@+id/popButton"
-                android:layout_column="2" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:text=""
-                android:ems="10"
-                android:id="@+id/showName"
-                android:layout_span="3"
-                android:layout_column="0" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:ems="10"
-                android:id="@+id/showMail"
-                android:layout_span="3"
-                android:layout_column="0" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="phone"
-                android:ems="10"
-                android:id="@+id/showNum"
-                android:layout_span="3"
-                android:layout_column="0" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/showStatus"
-                android:layout_span="3"
-                android:layout_column="0" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:ems="10"
-                android:id="@+id/showPin"
-                android:layout_span="3"
-                android:layout_column="0" />
-        </TableRow>
-    </TableLayout>
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Standard"
+        android:id="@+id/showStatus"
+        android:layout_below="@+id/showPin"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textSize="18dp"
+        android:checked="false" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Update"
         android:id="@+id/updateBtn"
-        android:layout_marginLeft="37dp"
-        android:layout_marginStart="37dp"
-        android:layout_below="@+id/tableLayout2"
+        android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="44dp"
+        android:layout_marginStart="44dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -136,8 +93,8 @@
         android:layout_alignTop="@+id/updateBtn"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="41dp"
-        android:layout_marginEnd="41dp" />
+        android:layout_marginRight="37dp"
+        android:layout_marginEnd="37dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -145,9 +102,10 @@
         android:text="Delete"
         android:id="@+id/delButton"
         android:layout_below="@+id/updateBtn"
-        android:layout_marginTop="33dp"
+        android:layout_marginTop="35dp"
         android:layout_alignLeft="@+id/updateBtn"
         android:layout_alignStart="@+id/updateBtn"
         android:layout_alignRight="@+id/cancelUpdate"
         android:layout_alignEnd="@+id/cancelUpdate" />
+
 </RelativeLayout>

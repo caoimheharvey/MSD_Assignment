@@ -53,7 +53,7 @@ public class ManageShifts extends AppCompatActivity {
                 }
 
 
-                ShiftCursorAdapter cursorAdapter = new ShiftCursorAdapter(ManageShifts.this, res);//
+                ShiftCursorAdapter cursorAdapter = new ShiftCursorAdapter(ManageShifts.this, res);
                 listView.setAdapter(cursorAdapter);
 
 
@@ -90,7 +90,7 @@ public class ManageShifts extends AppCompatActivity {
                 Cursor mycursor = (Cursor) av.getItemAtPosition(position);
                 String selection = mycursor.getString(1);
 
-                Intent i = new Intent(ManageShifts.this, AdminMenu.class);
+                Intent i = new Intent(getApplicationContext(), updateShift.class);
                 startActivity(i);
 
 

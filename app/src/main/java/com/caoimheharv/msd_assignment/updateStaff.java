@@ -6,23 +6,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 /**
- * Concered with updating the information in a specific row, or deleting a specific row
+ * Concered with updating the information in a specific shift_row, or deleting a specific shift_row
  */
 
 public class updateStaff extends AppCompatActivity {
 
     DatabaseHelper myDB;
 
-    Button update, cancel, populate, delete;
+    Button update, cancel, delete;
 
-    EditText name, email, phone, status, pin, staff_id;
+    EditText name, email, phone, pin;
 
-    boolean clicked;
+    Switch status;
 
+    String getID, get_name, get_mail, get_phone, get_pin, get_status;
     int staff_no, intPin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,76 +36,47 @@ public class updateStaff extends AppCompatActivity {
 
         update = (Button) findViewById(R.id.updateBtn);
         cancel = (Button) findViewById(R.id.cancelUpdate);
-        populate = (Button) findViewById(R.id.popButton);
         delete = (Button) findViewById(R.id.delButton);
 
-        staff_id = (EditText) findViewById(R.id.getId);
         name = (EditText) findViewById(R.id.showName);
         email = (EditText) findViewById(R.id.showMail);
-        status = (EditText) findViewById(R.id.showStatus);
+        status = (Switch) findViewById(R.id.showStatus);
         phone = (EditText) findViewById(R.id.showNum);
         pin = (EditText) findViewById(R.id.showPin);
 
-        clicked = false;
+        getID = getIntent().getExtras().getString("ID");
+        get_name = getIntent().getExtras().getString("NAME");
+        get_mail = getIntent().getExtras().getString("EMAIL");
+        get_phone = getIntent().getExtras().getString("PHONE");
+        get_pin = getIntent().getExtras().getString("PIN");
+        get_status = getIntent().getExtras().getString("STATUS");
 
+        place();
 
-        populate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (staff_id.getText().toString().isEmpty())
-                    Toast.makeText(updateStaff.this, "Please Enter STAFF_ID", Toast.LENGTH_SHORT);
-                else
-                    staff_no = Integer.parseInt(staff_id.getText().toString());
-                Cursor res = myDB.getStaff("Staff", staff_no);
-
-                if (res.getCount() == 0) {
-                    // show message
-                    //showMessage("Error", "Nothing found");
-                    return;
-                }
-
-                while (res.moveToNext())
-                {
-                    name.setText(res.getString(1));
-                    email.setText(res.getString(2));
-                    phone.setText(res.getString(3));
-                    pin.setText(res.getString(4));
-                    status.setText(res.getString(5));
-                }
-
-                clicked = true;
-            }
-        });
-
-
-            update.setOnClickListener(new View.OnClickListener() {
+        update.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     intPin = Integer.parseInt(pin.getText().toString());
-                    boolean isUpdate = myDB.updateStaff(staff_id.getText().toString(), name.getText().toString(),
+                    boolean isUpdate = myDB.updateStaff(getID, name.getText().toString(),
                             email.getText().toString(), phone.getText().toString(), intPin, status.getText().toString());
                     if (isUpdate)
                         Toast.makeText(updateStaff.this, "Data Updated", Toast.LENGTH_LONG).show();
 
                     finish();
                 }
-            });
-
-
+        });
 
         /*
         DELETING A STAFF MEMBER
          */
-
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (staff_id.getText().toString().isEmpty())
-                    Toast.makeText(updateStaff.this, "Please Enter STAFF_ID", Toast.LENGTH_SHORT);
-                else
-                    staff_no = Integer.parseInt(staff_id.getText().toString());
 
-                Integer deletedRows = myDB.deleteData("Staff", staff_id.getText().toString());
+                staff_no = Integer.parseInt(getID);
+
+                Integer deletedRows = myDB.deleteData("Staff", getID);
                 if(deletedRows > 0)
                     Toast.makeText(updateStaff.this,"Staff Member Removed",Toast.LENGTH_SHORT).show();
                 else
@@ -122,13 +96,24 @@ public class updateStaff extends AppCompatActivity {
             }
         });
 
+        status.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked)
+                    status.setText("Admin");
+                else
+                    status.setText("Standard");
+            }
+        });
     }
 
-    private void showMessage(String title,String Message){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(true);
-        builder.setTitle(title);
-        builder.setMessage(Message);
-        builder.show();
+    private void place()
+    {
+        name.setText(get_name);
+        email.setText(get_mail);
+        phone.setText(get_phone);
+        pin.setText(get_pin); //needs to be a string
+
+        status.setText(get_status);
     }
 }
