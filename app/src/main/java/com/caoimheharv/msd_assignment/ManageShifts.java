@@ -1,13 +1,16 @@
 package com.caoimheharv.msd_assignment;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 public class ManageShifts extends AppCompatActivity {
@@ -15,7 +18,9 @@ public class ManageShifts extends AppCompatActivity {
     DatabaseHelper myDB;
 
     CalendarView calview;
-    Button view, add, edit;
+    Button add;
+
+    ListView listView;
 
     String selectedDate;
 
@@ -27,9 +32,9 @@ public class ManageShifts extends AppCompatActivity {
         myDB = new DatabaseHelper(this);
 
         calview = (CalendarView) findViewById(R.id.calendarView);
-        view = (Button) findViewById(R.id.viewToday);
         add = (Button) findViewById(R.id.addShift);
-        edit = (Button) findViewById(R.id.editShifts);
+
+        listView = (ListView) findViewById(R.id.shiftsList);
 
 
         calview.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -37,6 +42,36 @@ public class ManageShifts extends AppCompatActivity {
             public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
                 Toast.makeText(ManageShifts.this, dayOfMonth + "/" + (month + 1) + "/" + year, Toast.LENGTH_SHORT).show();
                 selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
+
+                Cursor res = myDB.search("SELECT shift._id, staff_name, start_date, start_time, end_time FROM SHIFT" +
+                        " INNER JOIN STAFF ON shift._id = staff._id");
+
+                if (res.getCount() == 0) {
+                    // show message
+                    showMessage("Shifts: " + selectedDate, "No Shifts");
+                    return;
+                }
+
+
+                ShiftCursorAdapter cursorAdapter = new ShiftCursorAdapter(ManageShifts.this, res);//
+                listView.setAdapter(cursorAdapter);
+
+
+
+               /* StringBuffer buffer = new StringBuffer();
+                while (res.moveToNext()) {
+                    // buffer.append("Staff No:" + res.getString(0) + "\n");
+
+                    //TODO: ERROR CHECKING
+                    if(selectedDate.equals(res.getString(2))) {
+                        buffer.append("Name:" + res.getString(1) + ", " + res.getString(0) + "\n");
+                        buffer.append("Date:" + res.getString(2) + "\n");
+                        buffer.append(res.getString(3) + " - " + res.getString(4) + "\n\n");
+                    }
+                }
+
+                // Show all data
+                showMessage("Shifts", buffer.toString());*/
             }
         });
 
@@ -49,39 +84,18 @@ public class ManageShifts extends AppCompatActivity {
             }
         });
 
-        edit.setOnClickListener(new View.OnClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onItemClick(AdapterView<?> av, View view, int position, long arg) {
+                Cursor mycursor = (Cursor) av.getItemAtPosition(position);
+                String selection = mycursor.getString(1);
 
-            }
-        });
+                Intent i = new Intent(ManageShifts.this, AdminMenu.class);
+                startActivity(i);
 
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Cursor res = myDB.search("SELECT shift.staff_no, staff_name, start_date, start_time, end_time FROM SHIFT" +
-                        " INNER JOIN STAFF ON shift.staff_no = staff.staff_no");
 
-                if (res.getCount() == 0) {
-                    // show message
-                    showMessage("Shifts: " + selectedDate, "No Shifts");
-                    return;
-                }
-
-                StringBuffer buffer = new StringBuffer();
-                while (res.moveToNext()) {
-                   // buffer.append("Staff No:" + res.getString(0) + "\n");
-
-                    //TODO: ERROR CHECKING
-                    if(selectedDate.equals(res.getString(2))) {
-                        buffer.append("Name:" + res.getString(1) + ", " + res.getString(0) + "\n");
-                        buffer.append("Date:" + res.getString(2) + "\n");
-                        buffer.append(res.getString(3) + " - " + res.getString(4) + "\n\n");
-                    }
-                }
-
-                // Show all data
-                showMessage("Shifts", buffer.toString());
+                Toast toast = Toast.makeText(getApplicationContext(), selection, Toast.LENGTH_SHORT);
+                toast.show();
             }
         });
     }

@@ -32,11 +32,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_1 + " (staff_no INTEGER PRIMARY KEY AUTOINCREMENT, " +
+        db.execSQL("create table " + TABLE_1 + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "staff_name TEXT, staff_email TEXT, staff_phone TEXT, pin INTEGER, status TEXT)");
-        db.execSQL("create table " + TABLE_2 + " (staff_no INTEGER PRIMARY KEY, " +
+        db.execSQL("create table " + TABLE_2 + " ( _id INTEGER PRIMARY KEY, " +
                 "start_date TEXT, end_date TEXT, start_time TEXT, end_time TEXT)");
-        db.execSQL("create table " + TABLE_3 + " (staff_no INTEGER PRIMARY KEY, " +
+        db.execSQL("create table " + TABLE_3 + " ( _id INTEGER PRIMARY KEY, " +
                 "date_in TEXT, date_out TEXT, time_in TEXT, time_out TEXT)");
 
     }
@@ -74,7 +74,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean insertShift(int staff_no, String start_time, String end_time, String date){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("staff_no", staff_no);
+        contentValues.put("_id", staff_no);
         contentValues.put("end_time", end_time);
         contentValues.put("start_time", start_time);
         contentValues.put("start_date", date);
@@ -96,7 +96,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("staff_phone", phone);
         contentValues.put("status", status);
         contentValues.put("pin",pin);
-        db.update(TABLE_1, contentValues, "staff_no = ?",new String[] { id });
+        db.update(TABLE_1, contentValues, "_id = ?",new String[] { id });
         return true;
     }
 
@@ -106,7 +106,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Integer deleteData (String table, String id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(table, "staff_no = ?",new String[] {id});
+        return db.delete(table, "_id = ?",new String[] {id});
     }
 
     /*
@@ -115,7 +115,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getStaff(String table, int id_no)
     {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + table + " WHERE " + id_no + " = STAFF_NO", null);
+        Cursor res = db.rawQuery("SELECT * FROM " + table + " WHERE " + id_no + " = _id", null);
         return res;
     }
 
@@ -127,19 +127,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor search(String query)
     {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery(query, null);//////////
+        Cursor res = db.rawQuery(query, null);
         return res;
     }
 
-    /*
-    CODE TO GRANT ACCESS IF IN SYSTEM
-     */
-    public Cursor checkAccess()
-    {
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("SELECT pin FROM staff", null);
-        return res;
-    }
+
     /*
     CODE TO VIEW ALL
      */
