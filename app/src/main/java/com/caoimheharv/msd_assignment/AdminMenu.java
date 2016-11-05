@@ -26,10 +26,12 @@ public class AdminMenu extends AppCompatActivity {
         shifts = (Button) findViewById(R.id.manShifts);
         settings = (Button) findViewById(R.id.setBtn);
 
+        final int staff_id = getIntent().getExtras().getInt("ID");
         clocking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(AdminMenu.this, clockInOut.class);
+                i.putExtra("ID", staff_id);
                 startActivity(i);
             }
         });

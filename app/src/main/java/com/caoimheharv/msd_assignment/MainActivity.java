@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     EditText passcode;
     int pin;
     int[] pinStored = new int[50];
-    //int[] parsed = new int[50];
     String[] status = new String[50];
     int[] IDs = new int[50];
 
@@ -44,13 +43,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (passcode.getText().toString().isEmpty()) {
                     Toast.makeText(MainActivity.this, "MUST ENTER PIN", Toast.LENGTH_SHORT).show();
+                } else if(pin == 212) {
+                    Intent intent = new Intent(MainActivity.this, AdminMenu.class);
+                    intent.putExtra("ID", 1);
+                    startActivity(intent);
                 } else {
                     Cursor res = myDB.search("SELECT pin, status, _id FROM STAFF");
                     int x = 0;
                     while (res.moveToNext()) {
                         pinStored[x] = res.getInt(0);
                         status[x] = res.getString(1);
-                        //parsed[x] = Integer.parseInt(stored[x]);
                         IDs[x] = res.getInt(2);
                         x++;
                     }
@@ -60,17 +62,11 @@ public class MainActivity extends AppCompatActivity {
                     int count = 0;
 
                     for (int i = 0; i < pinStored.length; i++) {
-                        if (pin == pinStored[i] || pin == 212) {
+                        if (pin == pinStored[i]) {
                             //OVERRIDE
-                            if(pin == 212) {
-                                Intent intent = new Intent(MainActivity.this, AdminMenu.class);
-                                startActivity(intent);
-                            }
-                            else {
-                                //check status
-                                checkStatus(status[i], IDs[i]);
-                                passcode.setText("");
-                            }
+                            //check status
+                            checkStatus(status[i], IDs[i]);
+                            passcode.setText("");
                             break;
                         } else {
                             count ++;

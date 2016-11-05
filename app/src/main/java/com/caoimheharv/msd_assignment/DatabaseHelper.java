@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import java.sql.SQLException;
@@ -22,6 +23,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_1 = "Staff";
     public static final String TABLE_2 = "Shift";
     public static final String TABLE_3 = "Clocked_Shift";
+    public static final String Table_4 = "state";
 
 
     public DatabaseHelper(Context context) {
@@ -35,10 +37,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table if not exists " + TABLE_1 + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "staff_name TEXT, staff_email TEXT, staff_phone TEXT, pin INTEGER, status TEXT)");
-        db.execSQL("create table " + TABLE_2 + " ( shift_id INTEGER PRIMARY KEY AUTOINCREMENT, _id INTEGER, " +
+        db.execSQL("create table " + TABLE_2 + " ( _id INTEGER, " +
                 "start_date TEXT, end_date TEXT, start_time TEXT, end_time TEXT)");
-        db.execSQL("create table " + TABLE_3 + " ( c_shift_id INTEGER PRIMARY KEY AUTOINCREMENT, _id INTEGER, " +
-                "date_in TEXT, date_out TEXT, time_in TEXT, time_out TEXT, photo BLOB)");
+        db.execSQL("create table " + TABLE_3 + " ( _id INTEGER, " +
+                "date_in TEXT, date_out TEXT, time_in TEXT, time_out TEXT)");
     }
 
     @Override
@@ -53,7 +55,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /*
     CODE TO INSERT A NEW ROW INTO THE STAFF TABLE
      */
-    public boolean insertStaff(String name, String email, String phone, int pin, String status){
+    public boolean insertStaff(String name, String email, String phone, int pin, String status) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("staff_name", name);
@@ -62,7 +64,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("pin", pin);
         contentValues.put("status", status);
         long res = db.insert(TABLE_1, null, contentValues);
-        if(res == -1)
+        if (res == -1)
             return false;
         else
             return true;
@@ -71,7 +73,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /*
     CODE TO INSERT A NEW ROW INTO THE SHIFT TABLE
      */
-    public boolean insertShift(int staff_no, String start_time, String end_time, String date){
+    public boolean insertShift(int staff_no, String start_time, String end_time, String date) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("_id", staff_no);
@@ -79,7 +81,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("start_time", start_time);
         contentValues.put("start_date", date);
         long res = db.insert(TABLE_2, null, contentValues);
-        if(res == -1)
+        if (res == -1)
+            return false;
+        else
+            return true;
+    }
+
+    /*
+    CODE TO INSERT A NEW ROW INTO THE CLOCKED SHIFT TABLE
+     */
+    public boolean insertClocked(int staff_no, String start_time, String end_time, String start_date,
+                                 String end_date) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("_id", staff_no);
+        contentValues.put("time_in", start_time);
+        contentValues.put("date_in", start_date);
+        contentValues.put("time_out", end_time);
+        contentValues.put("date_out", end_date);
+        //contentValues.put("shift_stat", status);
+        //contentValues.put("photo", photo);
+        long res = db.insert(TABLE_3, null, contentValues);
+        if (res == -1)
             return false;
         else
             return true;
@@ -91,12 +114,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean updateStaff(String id, String name, String email, String phone, int pin, String status) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("staff_name",name);
+        contentValues.put("staff_name", name);
         contentValues.put("staff_email", email);
         contentValues.put("staff_phone", phone);
         contentValues.put("status", status);
-        contentValues.put("pin",pin);
-        db.update(TABLE_1, contentValues, "_id = ?",new String[] { id });
+        contentValues.put("pin", pin);
+        db.update(TABLE_1, contentValues, "_id = ?", new String[]{id});
         return true;
     }
 
@@ -106,19 +129,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean updateShift(String id, String date, String starttime, String endtime) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("start_date",date);
+        contentValues.put("start_date", date);
         contentValues.put("start_time", starttime);
         contentValues.put("end_time", endtime);
-        db.update(TABLE_2, contentValues, "_id = ?",new String[] { id });
+        db.update(TABLE_2, contentValues, "_id = ?", new String[]{id});
+        return true;
+    }
+
+    public boolean updateClocked(String id, String start_time, String end_time, String start_date,
+                                 String end_date) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("_id", id);
+        contentValues.put("time_in", start_time);
+        contentValues.put("date_in", start_date);
+        contentValues.put("time_out", end_time);
+        contentValues.put("date_out", end_date);
+        db.update(TABLE_3, contentValues, "_id = ?", new String[]{id});
         return true;
     }
 
     /*
     CODE TO DELETE A ROW
      */
-    public Integer deleteData (String table, String id) {
+    public Integer deleteData(String table, String id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(table, "_id = ?",new String[] {id});
+        return db.delete(table, "_id = ?", new String[]{id});
     }
 
     /*
@@ -126,10 +162,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     one of the parameters is the entirety of the select statement which is read in
      */
 
-    public Cursor search(String query)
-    {
+    public Cursor search(String query) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery(query, null);//
         return res;
     }
+
 }
