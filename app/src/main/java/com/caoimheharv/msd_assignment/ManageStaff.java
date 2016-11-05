@@ -3,6 +3,7 @@ package com.caoimheharv.msd_assignment;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -36,6 +37,7 @@ public class ManageStaff extends AppCompatActivity {
         update = (Button) findViewById(R.id.updateBtn);
         //viewAll = (Button) findViewById(R.id.viewStaff);
         listView = (ListView) findViewById(R.id.stafflist);
+
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -24,9 +24,10 @@ public class MainActivity extends AppCompatActivity {
     Button verify;
     EditText passcode;
     int pin;
-    String[] stored = new String[50];
-    int[] parsed = new int[50];
+    int[] pinStored = new int[50];
+    //int[] parsed = new int[50];
     String[] status = new String[50];
+    int[] IDs = new int[50];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +45,13 @@ public class MainActivity extends AppCompatActivity {
                 if (passcode.getText().toString().isEmpty()) {
                     Toast.makeText(MainActivity.this, "MUST ENTER PIN", Toast.LENGTH_SHORT).show();
                 } else {
-                    Cursor res = myDB.search("SELECT pin, status FROM STAFF");
+                    Cursor res = myDB.search("SELECT pin, status, _id FROM STAFF");
                     int x = 0;
                     while (res.moveToNext()) {
-                        stored[x] = res.getString(0);
+                        pinStored[x] = res.getInt(0);
                         status[x] = res.getString(1);
-                        parsed[x] = Integer.parseInt(stored[x]);
+                        //parsed[x] = Integer.parseInt(stored[x]);
+                        IDs[x] = res.getInt(2);
                         x++;
                     }
 
@@ -57,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
 
                     int count = 0;
 
-                    for (int i = 0; i < stored.length; i++) {
-                        if (pin == parsed[i] || pin == 212) {
+                    for (int i = 0; i < pinStored.length; i++) {
+                        if (pin == pinStored[i] || pin == 212) {
                             //OVERRIDE
                             if(pin == 212) {
                                 Intent intent = new Intent(MainActivity.this, AdminMenu.class);
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                             else {
                                 //check status
-                                checkStatus(status[i]);
+                                checkStatus(status[i], IDs[i]);
                                 passcode.setText("");
                             }
                             break;
@@ -75,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
 
-                    if (count == stored.length) {
+                    if (count == pinStored.length) {
                         Toast.makeText(MainActivity.this, "Not recognized pin", Toast.LENGTH_SHORT).show();
                         passcode.setText("");
                     }//end if
@@ -84,16 +86,18 @@ public class MainActivity extends AppCompatActivity {
         });//end verify
     }//end onCreate
 
-    private void checkStatus(String status)
+    private void checkStatus(String status, int id)
     {
         if(status.equals("Admin")) {
             Toast.makeText(MainActivity.this, "Admin", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(MainActivity.this, AdminMenu.class);
+            intent.putExtra("ID", id);
             startActivity(intent);
         }
         else {
             Toast.makeText(MainActivity.this, "Standard", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(MainActivity.this, standardMenu.class);
+            Intent intent = new Intent(MainActivity.this, clockInOut.class);
+            intent.putExtra("ID", id);
             startActivity(intent);
         }
     }

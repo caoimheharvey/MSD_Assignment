@@ -35,10 +35,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table if not exists " + TABLE_1 + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "staff_name TEXT, staff_email TEXT, staff_phone TEXT, pin INTEGER, status TEXT)");
-        db.execSQL("create table " + TABLE_2 + " ( _id INTEGER PRIMARY KEY, " +
+        db.execSQL("create table " + TABLE_2 + " ( shift_id INTEGER PRIMARY KEY AUTOINCREMENT, _id INTEGER, " +
                 "start_date TEXT, end_date TEXT, start_time TEXT, end_time TEXT)");
-        db.execSQL("create table " + TABLE_3 + " ( _id INTEGER PRIMARY KEY, " +
-                "date_in TEXT, date_out TEXT, time_in TEXT, time_out TEXT)");
+        db.execSQL("create table " + TABLE_3 + " ( c_shift_id INTEGER PRIMARY KEY AUTOINCREMENT, _id INTEGER, " +
+                "date_in TEXT, date_out TEXT, time_in TEXT, time_out TEXT, photo BLOB)");
     }
 
     @Override
@@ -116,7 +116,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /*
     CODE TO DELETE A ROW
      */
-
     public Integer deleteData (String table, String id) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(table, "_id = ?",new String[] {id});
@@ -133,5 +132,4 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor res = db.rawQuery(query, null);//
         return res;
     }
-
 }

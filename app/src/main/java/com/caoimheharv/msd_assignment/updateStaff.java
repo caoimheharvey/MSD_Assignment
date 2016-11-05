@@ -114,5 +114,7 @@ public class updateStaff extends AppCompatActivity {
         pin.setText(get_pin); //needs to be a string
 
         status.setText(get_status);
+        if(get_status.equals("Admin"))
+            status.setChecked(true);
     }
 }
