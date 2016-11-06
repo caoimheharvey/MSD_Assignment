@@ -23,7 +23,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_1 = "Staff";
     public static final String TABLE_2 = "Shift";
     public static final String TABLE_3 = "Clocked_Shift";
-    public static final String Table_4 = "state";
 
 
     public DatabaseHelper(Context context) {
@@ -37,10 +36,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table if not exists " + TABLE_1 + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "staff_name TEXT, staff_email TEXT, staff_phone TEXT, pin INTEGER, status TEXT)");
-        db.execSQL("create table " + TABLE_2 + " ( _id INTEGER, " +
-                "start_date TEXT, end_date TEXT, start_time TEXT, end_time TEXT)");
-        db.execSQL("create table " + TABLE_3 + " ( _id INTEGER, " +
-                "date_in TEXT, date_out TEXT, time_in TEXT, time_out TEXT)");
+        db.execSQL("create table if not exists " + TABLE_2 + " ( _id INTEGER PRIMARY KEY  AUTOINCREMENT," +
+                " staff_id INTEGER, start_date TEXT, end_date TEXT, start_time TEXT, end_time TEXT)");
+        db.execSQL("create table " + TABLE_3 + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "staff_id INTEGER, date_in TEXT, date_out TEXT, time_in TEXT, time_out TEXT, status TEXT)");
     }
 
     @Override
@@ -76,7 +75,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean insertShift(int staff_no, String start_time, String end_time, String date) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("_id", staff_no);
+        contentValues.put("staff_id", staff_no);
         contentValues.put("end_time", end_time);
         contentValues.put("start_time", start_time);
         contentValues.put("start_date", date);

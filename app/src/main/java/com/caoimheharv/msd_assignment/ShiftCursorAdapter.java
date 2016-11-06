@@ -13,7 +13,6 @@ import android.widget.TextView;
  */
 public class ShiftCursorAdapter extends CursorAdapter {
     public ShiftCursorAdapter(Context context, Cursor c) {
-        //NOT WORKING
         super(context, c, 0);
     }
 

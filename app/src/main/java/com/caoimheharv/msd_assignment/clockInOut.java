@@ -24,8 +24,6 @@ public class clockInOut extends AppCompatActivity {
     TextView dispDT;
     int staff_id;
 
-    boolean entered;
-
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
     @Override
@@ -45,15 +43,40 @@ public class clockInOut extends AppCompatActivity {
         setTime();
 
         staff_id = getIntent().getExtras().getInt("ID");
-        //final String upSI = getIntent().getExtras().getString("ID");
-        //staff_id = Integer.parseInt(upSI);
+
+        /*
+        BUTTON TO REGISTER START TIME AND END TIME OF A SHIFT AND WRITING IT ACCORDINGLY
+         */
         clockingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /**
+                 * IMPORT THE LAST ROW FROM THE TABLE, IF THE TABLE IS EMPTY WRITE THIS AS THE FIRST ROW
+                 * ELSE CHECK IF THE CLOCK IN TIME IS EMPTY, IF IT IS THEN INSERT NEW ROW POPULATING THE
+                 * CLOCK IN TIME AND DATE, ELSE UPDATE THE LAST ROW
+                 */
+
                 Calendar c = Calendar.getInstance();
                 SimpleDateFormat start_time = new SimpleDateFormat("HH:mm");
                 SimpleDateFormat start_date = new SimpleDateFormat("dd/mm/yyyy");
                 String s_date = null, e_date, s_time = null, e_time;
+
+                Cursor res = myDB.search("SELECT * FROM clocked_shift");
+                if(res.getCount() == 0)
+                {
+                    showMessage("Table", "No Rows Available");
+                    return;
+                }
+                else
+                {
+                    while(res.moveToLast())
+                    {
+                        if(res.getString(4) == "T")
+                        {
+
+                        }
+                    }
+                }
 
                 if(clockingBtn.getText().toString().equals("CLOCK IN")) {
                     s_date = start_date.format(c.getTime());
@@ -130,6 +153,9 @@ public class clockInOut extends AppCompatActivity {
         builder.show();
     }
 
+    /*
+    SETS TIME IN TEXT VIEW TO CURRENT TIME
+     */
     private void setTime() {
         Calendar c = Calendar.getInstance();
 
