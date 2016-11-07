@@ -44,8 +44,8 @@ public class ManageShifts extends AppCompatActivity {
                 selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
 
                 //NOT WORKING
-                Cursor res = myDB.search("SELECT shift._id, staff_name, start_date, start_time, end_time FROM SHIFT" +
-                        " INNER JOIN STAFF ON shift._id = staff._id");//
+                Cursor res = myDB.search("SELECT shift._id, staff_id, staff_name, start_date, start_time, end_time FROM SHIFT" +
+                        " INNER JOIN STAFF ON shift.staff_id = staff._id");//
 
                 if (res.getCount() == 0) {
                     // show message
@@ -78,11 +78,12 @@ public class ManageShifts extends AppCompatActivity {
                 Cursor mycursor = (Cursor) av.getItemAtPosition(position);
 
                 Intent i = new Intent(getApplicationContext(), updateShift.class);
-                i.putExtra("ID", mycursor.getString(0));
-                i.putExtra("NAME", mycursor.getString(1));
-                i.putExtra("DATE", mycursor.getString(2));
-                i.putExtra("STARTTIME", mycursor.getString(3));
-                i.putExtra("ENDTIME", mycursor.getString(4));
+                i.putExtra("ROWID", mycursor.getString(0));
+                i.putExtra("ID", mycursor.getString(1));
+                i.putExtra("NAME", mycursor.getString(2));
+                i.putExtra("DATE", mycursor.getString(3));
+                i.putExtra("STARTTIME", mycursor.getString(4));
+                i.putExtra("ENDTIME", mycursor.getString(5));
                 startActivity(i);
 
             }

@@ -17,7 +17,7 @@ public class updateShift extends AppCompatActivity {
     private Button update, cancel, delete, get_time_start, get_time_end;
     private TextView view_Start, view_End, name;
 
-    String get_id, get_name, get_date, get_start, get_end;
+    String row_id, get_id, get_name, get_date, get_start, get_end;
 
     int hour_x, minute_x;
     int check;
@@ -42,6 +42,7 @@ public class updateShift extends AppCompatActivity {
          * getting from bundle from intent
          */
 
+        row_id = getIntent().getExtras().getString("ROWID");
         get_id = getIntent().getExtras().getString("ID");
         get_name = getIntent().getExtras().getString("NAME");
         get_date = getIntent().getExtras().getString("DATE");
@@ -54,7 +55,7 @@ public class updateShift extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    boolean isUpdate = myDB.updateShift(get_id, get_date, view_Start.getText().toString(), view_End.getText().toString());
+                    boolean isUpdate = myDB.updateShift(row_id,get_id, get_date, view_Start.getText().toString(), view_End.getText().toString());
                     if (isUpdate)
                         Toast.makeText(getApplicationContext(), "Data Updated", Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {

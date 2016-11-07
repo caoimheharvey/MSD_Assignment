@@ -125,9 +125,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /*
     CODE TO UPDATE A ROW IN THE SHIFT TABLE
      */
-    public boolean updateShift(String id, String date, String starttime, String endtime) {
+    public boolean updateShift(String id, String staff_id, String date, String starttime, String endtime) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+        contentValues.put("_id", id);
+        contentValues.put("staff_id", staff_id);
         contentValues.put("start_date", date);
         contentValues.put("start_time", starttime);
         contentValues.put("end_time", endtime);

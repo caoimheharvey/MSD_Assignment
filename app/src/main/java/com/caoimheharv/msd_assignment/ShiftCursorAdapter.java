@@ -28,11 +28,11 @@ public class ShiftCursorAdapter extends CursorAdapter {
         TextView times = (TextView) view.findViewById(R.id.timesTV);
 
         String name, id, starttime, endtime, day;
-        id = cursor.getString(0);
-        name = cursor.getString(1);
-        day = cursor.getString(2);
-        starttime = cursor.getString(3);
-        endtime = cursor.getString(4);
+        id = cursor.getString(1);
+        name = cursor.getString(2);
+        day = cursor.getString(3);
+        starttime = cursor.getString(4);
+        endtime = cursor.getString(5);
 
         name_num.setText(name + " (" + id + ")");
         date.setText(day);
