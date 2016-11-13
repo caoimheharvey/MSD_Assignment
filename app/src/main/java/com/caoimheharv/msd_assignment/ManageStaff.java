@@ -51,7 +51,8 @@ public class ManageStaff extends AppCompatActivity {
 
             if (res.getCount() == 0) {
                 // show message
-                showMessage("Error", "Nothing found");
+                Toast.makeText(getApplicationContext(), "Table Empty", Toast.LENGTH_SHORT).show();
+
                 return;
             }
 
@@ -78,11 +79,4 @@ public class ManageStaff extends AppCompatActivity {
         });
     }
 
-    private void showMessage(String title,String Message){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(true);
-        builder.setTitle(title);
-        builder.setMessage(Message);
-        builder.show();
-    }
 }

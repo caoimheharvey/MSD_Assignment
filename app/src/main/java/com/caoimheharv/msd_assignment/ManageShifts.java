@@ -55,8 +55,7 @@ public class ManageShifts extends AppCompatActivity {
                 try {
                     ShiftCursorAdapter cursorAdapter = new ShiftCursorAdapter(ManageShifts.this, res);
                     listView.setAdapter(cursorAdapter);
-                } catch (Exception e)
-                {
+                } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "Internal Failure", Toast.LENGTH_SHORT).show();
                 }
 

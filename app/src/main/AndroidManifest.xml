@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.caoimheharv.msd_assignment">
 
-    <uses-feature android:name="android.hardware.Camera"  android:required="true"></uses-feature>
+    <uses-feature
+        android:name="android.hardware.Camera"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -25,7 +27,7 @@
         <activity android:name=".addShift" />
         <activity android:name=".updateShift" />
         <activity android:name=".Settings" />
-        <activity android:name=".clockInOut" />
+        <activity android:name=".Clocking"></activity>
     </application>
 
 </manifest>

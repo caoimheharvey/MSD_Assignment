@@ -30,7 +30,7 @@ public class AdminMenu extends AppCompatActivity {
         clocking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(AdminMenu.this, clockInOut.class);
+                Intent i = new Intent(AdminMenu.this, Clocking.class);
                 i.putExtra("ID", staff_id);
                 startActivity(i);
             }

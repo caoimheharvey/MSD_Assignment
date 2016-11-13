@@ -39,7 +39,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("create table if not exists " + TABLE_2 + " ( _id INTEGER PRIMARY KEY  AUTOINCREMENT," +
                 " staff_id INTEGER, start_date TEXT, end_date TEXT, start_time TEXT, end_time TEXT)");
         db.execSQL("create table " + TABLE_3 + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "staff_id INTEGER, date_in TEXT, date_out TEXT, time_in TEXT, time_out TEXT, status TEXT)");
+                "staff_id INTEGER, start TEXT, end TEXT)");
     }
 
     @Override
@@ -47,6 +47,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_1);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_2);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_3);
+        db.execSQL("DROP TABLE IF EXISTS trial");
         onCreate(db);
     }
 
@@ -89,23 +90,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /*
     CODE TO INSERT A NEW ROW INTO THE CLOCKED SHIFT TABLE
      */
-    public boolean insertClocked(int staff_no, String start_time, String end_time, String start_date,
-                                 String end_date) {
+    public boolean insertClocked(int staff_no, String start_dt) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("_id", staff_no);
-        contentValues.put("time_in", start_time);
-        contentValues.put("date_in", start_date);
-        contentValues.put("time_out", end_time);
-        contentValues.put("date_out", end_date);
-        //contentValues.put("shift_stat", status);
-        //contentValues.put("photo", photo);
-        long res = db.insert(TABLE_3, null, contentValues);
+        contentValues.put("staff_id", staff_no);
+        contentValues.put("start", start_dt);
+        long res = db.insert(TABLE_3, null, contentValues);//
         if (res == -1)
             return false;
         else
             return true;
     }
+
 
     /*
     CODE TO UPDATE A ROW IN THE STAFF TABLE
@@ -137,15 +133,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean updateClocked(String id, String start_time, String end_time, String start_date,
-                                 String end_date) {
+    public boolean updateClocked(String id, String end_time) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("_id", id);
-        contentValues.put("time_in", start_time);
-        contentValues.put("date_in", start_date);
-        contentValues.put("time_out", end_time);
-        contentValues.put("date_out", end_date);
+        contentValues.put("end", end_time);
         db.update(TABLE_3, contentValues, "_id = ?", new String[]{id});
         return true;
     }
