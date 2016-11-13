@@ -1,3 +1,6 @@
+/**
+ * https://www.simplifiedcoding.net/android-email-app-using-javamail-api-in-android-studio/
+ */
 package com.caoimheharv.msd_assignment;
 
 import android.database.Cursor;
@@ -13,9 +16,11 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class Clocking extends AppCompatActivity {
+public class Clocking extends AppCompatActivity implements View.OnClickListener {
 
     DatabaseHelper db = new DatabaseHelper(this);
+
+    int staff_no;
 
     Button clockBtn;
     TextView cdt;
@@ -27,41 +32,14 @@ public class Clocking extends AppCompatActivity {
         /**
          * GETTING STAFF ID FROM INTENT
          */
-        final int staff_no = getIntent().getExtras().getInt("ID");
 
+        final int staff_id = getIntent().getExtras().getInt("ID");
+        staff_no = staff_id;
         clockBtn = (Button) findViewById(R.id.cButton);
         cdt = (TextView) findViewById(R.id.cDT);
 
         getTime();
-        clockBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-
-                    String end = null, r_id = null;
-                    Cursor res = db.search("SELECT * FROM CLOCKED_SHIFT");
-                    if (res.getCount() == 0) {
-                        Toast.makeText(getApplicationContext(), "First Insert", Toast.LENGTH_SHORT).show();
-                        clockIn(staff_no);
-                    }
-                    while(res.moveToNext()) {
-                        r_id = res.getString(0);
-
-                        end = res.getString(3);
-                    }
-
-                    if (end != null)
-                        clockIn(staff_no);
-                    else
-                        clockOut(r_id);
-
-                    Log.i("TABLE ROW", r_id + " ---- " + staff_no + " ----- " + end);
-
-                } catch (Exception e){
-                    Log.e("Error", String.valueOf(e));
-                }
-            }
-        });
+        clockBtn.setOnClickListener(this);
     }
 
     private void clockIn(int staff_id)
@@ -83,7 +61,7 @@ public class Clocking extends AppCompatActivity {
         String formattedDate = df.format(c.getTime());
         db.updateClocked(row_id, formattedDate);
         clockBtn.setText("Clock In");
-        Toast.makeText(getApplicationContext(), "CLOCKED OUT at " + formattedDate, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), "CLOCKED OUT at " + formattedDate, Toast.LENGTH_SHORT).show();
 
     }
 
@@ -95,5 +73,50 @@ public class Clocking extends AppCompatActivity {
         String formattedDate = df.format(c.getTime());
 
         cdt.setText(formattedDate);
+    }
+
+    public void onClick(View v)
+    {
+        try {
+
+            String end = null, r_id = null;
+            Cursor res = db.search("SELECT * FROM CLOCKED_SHIFT");
+            if (res.getCount() == 0) {
+                Toast.makeText(getApplicationContext(), "First Insert", Toast.LENGTH_SHORT).show();
+                clockIn(staff_no);
+            }
+            while(res.moveToNext()) {
+                r_id = res.getString(0);
+
+                end = res.getString(3);
+            }
+
+            if (end != null) {
+                clockIn(staff_no);
+            } else {
+                clockOut(r_id);
+                sendEmail();
+            }
+
+            Log.i("TABLE ROW", r_id + "---" + staff_no + " ----- " + end);
+
+        } catch (Exception e){
+            Log.e("Error", String.valueOf(e));
+        }
+
+    }
+
+    private void sendEmail() {
+        String dest, subj, content;
+        dest = "caoimhe.e.harvey@gmail.com";
+        subj = "EMAIL TEST RUN";//staff_name + clocked out at + time
+        content = "EMAIL FROM WITHIN APP";//shift details
+
+        Log.i("IN MAIL", "in sendEmail()");
+
+        SendEmail sm = new SendEmail(this, dest, subj, content);
+
+        //Executing sendmail to send email
+        sm.execute();
     }
 }
