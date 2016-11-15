@@ -10,7 +10,7 @@
     android:orientation="vertical"
     tools:context="com.caoimheharv.msd_assignment.ManageStaff"
     android:weightSum="1"
-    android:background="#9d9d9d">
+    android:background="@drawable/gradient1">
 
     <ListView
         android:layout_width="match_parent"

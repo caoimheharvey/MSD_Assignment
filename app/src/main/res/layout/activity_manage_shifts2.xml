@@ -8,7 +8,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context="com.caoimheharv.msd_assignment.ManageShifts">
+    tools:context="com.caoimheharv.msd_assignment.ManageShifts"
+    android:background="@drawable/gradient1">
 
     <CalendarView
         android:layout_width="wrap_content"
@@ -16,7 +17,8 @@
         android:id="@+id/calendarView"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:background="#4bffffff" />
 
     <Button
         android:layout_width="match_parent"
@@ -32,6 +34,7 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/shiftsList" />
+        android:id="@+id/shiftsList"
+        android:background="#8bffffff" />
 
 </LinearLayout>

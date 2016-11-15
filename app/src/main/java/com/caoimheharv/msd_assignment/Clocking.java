@@ -78,27 +78,29 @@ public class Clocking extends AppCompatActivity implements View.OnClickListener 
     public void onClick(View v)
     {
         try {
-
-            String end = null, r_id = null;
-            Cursor res = db.search("SELECT * FROM CLOCKED_SHIFT");
+            String end = null, r_id = null, name = null, start = null;
+            Cursor res = db.search("SELECT CLOCKED_SHIFT._id, staff_id, start, end, staff.staff_name FROM CLOCKED_SHIFT" +
+                    " INNER JOIN STAFF ON CLOCKED_SHIFT.STAFF_ID = STAFF._ID");
             if (res.getCount() == 0) {
                 Toast.makeText(getApplicationContext(), "First Insert", Toast.LENGTH_SHORT).show();
                 clockIn(staff_no);
             }
             while(res.moveToNext()) {
                 r_id = res.getString(0);
-
+                start = res.getString(2);
                 end = res.getString(3);
+                name = res.getString(4);
             }
 
-            if (end != null) {
+            if (start != null && end != null) {
                 clockIn(staff_no);
             } else {
                 clockOut(r_id);
-                sendEmail();
+                String content = name + "(" + staff_no + ")" + " has clocked out of their shift at " + end + ".\n\n" +
+                        "They clocked in at " + start + ".\r\nKind Regards, Clocking System";
+                sendEmail("Staff Number: " + staff_no, content);
             }
 
-            Log.i("TABLE ROW", r_id + "---" + staff_no + " ----- " + end);
 
         } catch (Exception e){
             Log.e("Error", String.valueOf(e));
@@ -106,11 +108,9 @@ public class Clocking extends AppCompatActivity implements View.OnClickListener 
 
     }
 
-    private void sendEmail() {
-        String dest, subj, content;
+    private void sendEmail(String subj, String content) {
+        String dest;
         dest = "caoimhe.e.harvey@gmail.com";
-        subj = "EMAIL TEST RUN";//staff_name + clocked out at + time
-        content = "EMAIL FROM WITHIN APP";//shift details
 
         Log.i("IN MAIL", "in sendEmail()");
 

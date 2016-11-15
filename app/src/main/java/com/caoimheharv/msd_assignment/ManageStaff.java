@@ -1,15 +1,22 @@
 package com.caoimheharv.msd_assignment;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.Toast;
 
 /**
@@ -20,7 +27,7 @@ import android.widget.Toast;
  */
 public class ManageStaff extends AppCompatActivity {
 
-    DatabaseHelper myDB;
+    DatabaseHelper db;
 
     Button add, update;
 
@@ -31,37 +38,69 @@ public class ManageStaff extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_staff);
 
-        myDB = new DatabaseHelper(this);
+        db = new DatabaseHelper(this);
 
         add = (Button) findViewById(R.id.addBtn);
         update = (Button) findViewById(R.id.updateBtn);
-        //viewAll = (Button) findViewById(R.id.viewStaff);
         listView = (ListView) findViewById(R.id.stafflist);
 
+        displayStaff();
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(ManageStaff.this, addStaffForm.class);
-                startActivity(i);
+                View view = (LayoutInflater.from(getApplicationContext())).inflate(R.layout.activity_add_staff_form, null);
+
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getApplicationContext());
+                alertBuilder.setView(view);
+
+                //from add staff form XML
+                final EditText name = (EditText) view.findViewById(R.id.addName);
+                final EditText email = (EditText) view.findViewById(R.id.addEmail);
+                final EditText phone = (EditText) view.findViewById(R.id.addNumber);
+                final EditText pin = (EditText) view.findViewById(R.id.addPin);
+                final Switch status = (Switch) view.findViewById(R.id.statusSwitch);
+
+                status.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if(isChecked)
+                            status.setText("Admin");
+                        else
+                            status.setText("Standard");
+                    }
+                });
+
+                alertBuilder.setCancelable(true)
+                        .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                db.insertStaff(name.getText().toString(),email.getText().toString(),phone.getText().toString(),
+                                        Integer.parseInt(pin.getText().toString()),status.getText().toString());//
+
+                                //Cursor
+                                Cursor res = db.search("SELECT * FROM staff");
+                                if (res.getCount() == 0) {
+                                    Toast.makeText(getApplicationContext(), "First Insert", Toast.LENGTH_SHORT).show();
+                                }
+
+
+                                StaffCursorAdapter cursorAdapter = new StaffCursorAdapter(getApplicationContext(), res);
+                                listView.setAdapter(cursorAdapter);
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                Dialog dialog = alertBuilder.create();
+                dialog.show();
             }
         });
-        try {
-            Cursor res = myDB.search("SELECT * FROM staff");
 
-            if (res.getCount() == 0) {
-                // show message
-                Toast.makeText(getApplicationContext(), "Table Empty", Toast.LENGTH_SHORT).show();
-
-                return;
-            }
-
-            //NOT WORKING
-            StaffCursorAdapter cursorAdapter = new StaffCursorAdapter(getApplicationContext(), res);
-            listView.setAdapter(cursorAdapter);
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "FAILED TO OPEN DATABASE", Toast.LENGTH_SHORT).show();
-        }
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> av, View view, int position, long arg) {
@@ -78,5 +117,23 @@ public class ManageStaff extends AppCompatActivity {
             }
         });
     }
+
+    private void displayStaff(){
+        try {
+            Cursor res = db.search("SELECT * FROM staff");
+
+            if (res.getCount() == 0) {
+                // show message
+                Toast.makeText(getApplicationContext(), "Table Empty", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            StaffCursorAdapter cursorAdapter = new StaffCursorAdapter(getApplicationContext(), res);
+            listView.setAdapter(cursorAdapter);
+        } catch (Exception e) {
+            Log.e("Error", String.valueOf(e));
+        }
+    }
+
 
 }
