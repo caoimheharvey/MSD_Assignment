@@ -39,7 +39,7 @@
         android:id="@+id/addNumber" />
 
     <Switch
-        android:layout_width="328dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Standard"
         android:textSize="18dp"

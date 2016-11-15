@@ -49,9 +49,9 @@ public class ManageStaff extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View view = (LayoutInflater.from(getApplicationContext())).inflate(R.layout.activity_add_staff_form, null);
+                View view = (LayoutInflater.from(ManageStaff.this)).inflate(R.layout.activity_add_staff_form, null);
 
-                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getApplicationContext());
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(ManageStaff.this);
                 alertBuilder.setView(view);
 
                 //from add staff form XML
@@ -93,7 +93,7 @@ public class ManageStaff extends AppCompatActivity {
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
+                              //  dialog.cancel();
                             }
                         });
                 Dialog dialog = alertBuilder.create();
