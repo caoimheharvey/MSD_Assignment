@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+/**
+ * Serves as a log out page returning the user back to the log in screen
+ */
 public class Settings extends AppCompatActivity {
 
     Button logOut;

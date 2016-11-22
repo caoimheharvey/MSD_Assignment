@@ -133,6 +133,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    /*
+    Updating clocked shift table by adding the end_time such that it is not null
+     */
     public boolean updateClocked(String id, String end_time) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();

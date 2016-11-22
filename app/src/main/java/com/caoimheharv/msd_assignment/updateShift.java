@@ -10,13 +10,18 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-public class updateShift extends AppCompatActivity {
+/**
+ * Updates an existing shift's details for a particular user by clicking on the list item
+ * for the selected shift
+ */
+public class UpdateShift extends AppCompatActivity {
 
     DatabaseHelper myDB = new DatabaseHelper(this);
 
     private Button update, cancel, delete, get_time_start, get_time_end;
     private TextView view_Start, view_End, name;
 
+    //stores data passed through intent
     String row_id, get_id, get_name, get_date, get_start, get_end;
 
     int hour_x, minute_x;
@@ -41,7 +46,6 @@ public class updateShift extends AppCompatActivity {
         /**
          * getting from bundle from intent
          */
-
         row_id = getIntent().getExtras().getString("ROWID");
         get_id = getIntent().getExtras().getString("ID");
         get_name = getIntent().getExtras().getString("NAME");
@@ -49,8 +53,12 @@ public class updateShift extends AppCompatActivity {
         get_start = getIntent().getExtras().getString("STARTTIME");
         get_end = getIntent().getExtras().getString("ENDTIME");
 
-
+        //fills in with existing data
         place();
+
+        /*
+        Updates the existing row with the new details and outputs success
+         */
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,6 +73,9 @@ public class updateShift extends AppCompatActivity {
             }
         });
 
+        /*
+        Canceling actions and returning to manage shift class
+         */
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,6 +83,9 @@ public class updateShift extends AppCompatActivity {
             }
         });
 
+        /*
+        Deleting a shift from the database
+         */
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,6 +98,9 @@ public class updateShift extends AppCompatActivity {
             }
         });
 
+        /*
+        Adding the start time
+         */
         get_time_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,6 +123,9 @@ public class updateShift extends AppCompatActivity {
 
     }
 
+    /*
+    Displays original times and date for a particular user
+     */
     private void place() {
         name.setText(get_name + " (" + get_id + ")");
         view_Start.setText(get_start);
@@ -118,7 +138,7 @@ public class updateShift extends AppCompatActivity {
     protected Dialog onCreateDialog(int id)
     {
         if(id == DIALOG_ID) {
-            return new TimePickerDialog(updateShift.this, timePickerListener, hour_x, minute_x, true);
+            return new TimePickerDialog(UpdateShift.this, timePickerListener, hour_x, minute_x, true);
         }
         return null;
     }
@@ -142,7 +162,6 @@ public class updateShift extends AppCompatActivity {
                 else
                     view_End.setText(hour_x + ":0" + minute_x);
             }//end ifelse
-
         }
     };
 }

@@ -21,9 +21,9 @@ import android.widget.Toast;
 
 /**
  * Allows admin to select from 3 different actions.
- * 1. Viewing all staff members and their details which exist in the database without leaving the page
- * 2. Adding a new Staff member
- * 3. Editing existing staff members
+ * 1. Viewing all existing staff in Database
+ * 2. Adding a new staff member by clicking the button and opening an alter dialog
+ * 3. Editing existing staff by clicking on their name in the list (three options, update, cancel, delete)
  */
 public class ManageStaff extends AppCompatActivity {
 
@@ -40,9 +40,10 @@ public class ManageStaff extends AppCompatActivity {
 
         add = (Button) findViewById(R.id.addBtn);
         listView = (ListView) findViewById(R.id.stafflist);
-
+        //displaying all current staff in list
         displayStaff();
 
+        //On click of the add button the addStaff() method is called
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,6 +51,7 @@ public class ManageStaff extends AppCompatActivity {
             }
         });
 
+        //on click of a list item the updateStaff() method is called and 6 parameters are passed through
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> av, View view, int position, long arg) {
@@ -62,14 +64,18 @@ public class ManageStaff extends AppCompatActivity {
         });
     }
 
+    /*
+    Outputs staff into a list for the user to see
+     */
     public void displayStaff(){
         try {
+            //selects all details from the staff table
             Cursor res = db.search("SELECT * FROM staff");
 
             if (res.getCount() == 0) {
                 return;
             }
-
+            //formats details from staff table into the list
             StaffCursorAdapter cursorAdapter = new StaffCursorAdapter(getApplicationContext(), res);
             listView.setAdapter(cursorAdapter);
         } catch (Exception e) {
@@ -77,10 +83,16 @@ public class ManageStaff extends AppCompatActivity {
         }
     }
 
+    /*
+    Opens an alert dialog for the input of a new staff member
+     */
     private void addStaff() {
+        //links the alert dialog view to the add staff form XML file in resources
         View view = (LayoutInflater.from(ManageStaff.this)).inflate(R.layout.activity_add_staff_form, null);
 
+        //creates an instance of the alterdialog builder
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(ManageStaff.this);
+        //sets the view to the alert dialof to the view initialized above
         alertBuilder.setView(view);
 
         //from add staff form XML
@@ -90,53 +102,61 @@ public class ManageStaff extends AppCompatActivity {
         final EditText pin = (EditText) view.findViewById(R.id.addPin);
         final Switch status = (Switch) view.findViewById(R.id.statusSwitch);
 
+        //limits user error by allowing the user to select only 1 of 2 different options
         status.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
+                if (isChecked)
                     status.setText("Admin");
                 else
                     status.setText("Standard");
             }
         });
         //TODO: ADD ERROR CHECKING
-        alertBuilder.setCancelable(true);
 
-        alertBuilder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                db.insertStaff(name.getText().toString(), email.getText().toString(), phone.getText().toString(),
-                        Integer.parseInt(pin.getText().toString()), status.getText().toString());
-                displayStaff();
-            }
-        });
-
-        alertBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-            Dialog dialog = alertBuilder.create();
-            dialog.show();
+        //builds the alert dialog and allows user to click out of dialog by hitting the background
+        alertBuilder.setCancelable(true)
+                //adds a positive button for an action
+                .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //inserts and displays new staff
+                        db.insertStaff(name.getText().toString(), email.getText().toString(), phone.getText().toString(),
+                            Integer.parseInt(pin.getText().toString()), status.getText().toString());
+                        displayStaff();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //cancels action
+                        dialog.cancel();
+                    }
+                });
+        //displays alert Dialog
+        Dialog dialog = alertBuilder.create();
+        dialog.show();
 
     }
 
+    /*
+    Opens an alert dialog and fills in the existing information into the edit texts
+    allows user to then update or delete the selected staff member
+     */
     private void updateStaff(final String id, String s_name, String s_email, String s_phone, String s_pin, String s_status){
         View view = (LayoutInflater.from(ManageStaff.this)).inflate(R.layout.activity_update_staff, null);
 
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(ManageStaff.this);
         alertBuilder.setView(view);
 
-        //from add staff form XML
+        //from update staff XML
         final EditText name = (EditText) view.findViewById(R.id.showName);
         final EditText email = (EditText) view.findViewById(R.id.showMail);
         final EditText phone = (EditText) view.findViewById(R.id.showNum);
         final EditText pin = (EditText) view.findViewById(R.id.showPin);
         final Switch status = (Switch) view.findViewById(R.id.showStatus);
 
+        //filling in the edit text with pre-existing data on selected member
         name.setText(s_name); email.setText(s_email); phone.setText(s_phone);
         pin.setText(s_pin); status.setText(s_status);
 
@@ -155,6 +175,7 @@ public class ManageStaff extends AppCompatActivity {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        //Updates user and outputs success then displays all updated staff
                         boolean b = db.updateStaff(id, name.getText().toString(), email.getText().toString(), phone.getText().toString(),
                                 Integer.parseInt(pin.getText().toString()), status.getText().toString());
                         if (b)
@@ -162,16 +183,10 @@ public class ManageStaff extends AppCompatActivity {
                         displayStaff();
                     }
                 })
-                .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
-
+                .setNeutralButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                })
-                .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                        //deletes selected staff member
                         Integer deletedRows = db.deleteData("Staff", id);
                         if (deletedRows > 0)
                             Toast.makeText(getApplicationContext(), "Staff Member Removed", Toast.LENGTH_SHORT).show();
@@ -179,7 +194,16 @@ public class ManageStaff extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "ERROR: Could not delete", Toast.LENGTH_SHORT).show();
                         displayStaff();
                     }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //cancels actions
+                        dialog.cancel();
+                    }
                 });
+
+        //displays dialog
         Dialog dialog = alertBuilder.create();
         dialog.show();
     }

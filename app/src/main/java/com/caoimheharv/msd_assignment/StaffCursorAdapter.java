@@ -10,20 +10,26 @@ import android.widget.TextView;
 
 /**
  * Created by CaoimheHarvey on 11/4/16.
+ *
+ * Used to view staff in list view.
  */
 public class StaffCursorAdapter extends CursorAdapter {
     public StaffCursorAdapter(Context context, Cursor c) {
-        //NOT WORKING
         super(context, c, 0);
     }
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
+        //formated based on Staff_Row XML file
         return LayoutInflater.from(context).inflate(R.layout.staff_row, parent, false);
     }
 
+    /*
+    Populates the XML fields with the correct cursor fields and outputs them to the user
+     */
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
+
         TextView name_num = (TextView) view.findViewById(R.id.name_num_TV);
         TextView email = (TextView) view.findViewById(R.id.email_tv);
         TextView phone = (TextView) view.findViewById(R.id.phone_tv);

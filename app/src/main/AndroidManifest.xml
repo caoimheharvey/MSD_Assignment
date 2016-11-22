@@ -24,9 +24,9 @@
         <activity android:name=".AdminMenu" />
         <activity android:name=".ManageStaff" />
         <activity android:name=".ManageShifts" />
-        <activity android:name=".updateShift" />
+        <activity android:name=".UpdateShift" />
         <activity android:name=".Settings" />
-        <activity android:name=".addShift"/>
+        <activity android:name=".AddShift"/>
         <activity android:name=".Clocking"></activity>
     </application>
 

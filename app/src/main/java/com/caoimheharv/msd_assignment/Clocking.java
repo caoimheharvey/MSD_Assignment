@@ -1,5 +1,9 @@
 /**
  * https://www.simplifiedcoding.net/android-email-app-using-javamail-api-in-android-studio/
+ *
+ * Class allows user to clock in and out of shifts and view upcoming shifts based on their ID
+ * Once a shift has been clocked out of an email is automatically sent to a pre-determined destination
+ * with the contents describing the users shift
  */
 package com.caoimheharv.msd_assignment;
 
@@ -53,13 +57,16 @@ public class Clocking extends AppCompatActivity implements View.OnClickListener 
             listView.setAdapter(cursorAdapter);
 
         } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Internal Failure", Toast.LENGTH_SHORT).show();
+            Log.e("ERROR:" ,String.valueOf(e));
         }
 
         getTime();
         clockBtn.setOnClickListener(this);
     }
 
+    /*
+    User clocks in for their shift. Method gets current time and inserts it into a new row in the database
+     */
     private void clockIn(int staff_id)
     {
         Calendar c = Calendar.getInstance();
@@ -71,6 +78,10 @@ public class Clocking extends AppCompatActivity implements View.OnClickListener 
         Toast.makeText(getApplicationContext(), "CLOCKED IN at "+ formattedDate, Toast.LENGTH_SHORT).show();
     }
 
+    /*
+    User clocks out, method takes one parameter (row_id) then gets current date and time and updates
+    current row with the current time
+     */
     private void clockOut(String row_id)
     {
         Calendar c = Calendar.getInstance();
@@ -81,6 +92,9 @@ public class Clocking extends AppCompatActivity implements View.OnClickListener 
         Toast.makeText(getApplicationContext(), "CLOCKED OUT at " + formattedDate, Toast.LENGTH_SHORT).show();
     }
 
+    /*
+    method gets and outputs current time
+     */
     private void getTime()
     {
         Calendar c = Calendar.getInstance();
@@ -91,6 +105,9 @@ public class Clocking extends AppCompatActivity implements View.OnClickListener 
         cdt.setText(formattedDate);
     }
 
+    /*
+    Method for when the CLOCK IN button is pressed in the XML file
+     */
     public void onClick(View v)
     {
         try {
@@ -109,7 +126,8 @@ public class Clocking extends AppCompatActivity implements View.OnClickListener 
             }
 
             //Log.i("Time Values", "Start: " + start + "---- End: " + end);
-
+            //if the most recent row doesn't have a start time then it will insert a row
+            //else it will update an existing row
             if (hasStart == false) {
 
                 clockBtn.setText("Clock In");
@@ -128,15 +146,16 @@ public class Clocking extends AppCompatActivity implements View.OnClickListener 
 
             }
 
-
-
-
         } catch (Exception e){
             Log.e("Error", String.valueOf(e));
         }
 
     }
 
+    /*
+    Instance of the SendEmail class which when the user clocks out an email is sent with the content to the
+    destination entered below
+     */
     private void sendEmail(String subj, String content) {
         String dest;
         dest = "caoimhe.e.harvey@gmail.com";
@@ -146,6 +165,6 @@ public class Clocking extends AppCompatActivity implements View.OnClickListener 
         SendEmail sm = new SendEmail(this, dest, subj, content);
 
         //Executing sendmail to send email
-        //sm.execute();
+        sm.execute();
     }
 }

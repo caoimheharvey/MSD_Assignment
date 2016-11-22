@@ -3,35 +3,39 @@ package com.caoimheharv.msd_assignment;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.database.Cursor;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CursorAdapter;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+/**
+ * Class is used to add a shift to the database for the admin user to view
+ */
+public class AddShift extends AppCompatActivity {
 
-public class addShift extends AppCompatActivity {
-
-    DatabaseHelper db;
+    DatabaseHelper db = new DatabaseHelper(this);
 
     Button selectSTime, selectETime, save, cancel;
     TextView viewStartTime, viewEndTime, dateDisp;
     String staff_no;
 
+    //variables to get date and time for the shift
     int hour_x, minute_x;
+
+    //used to toggle between clock in and clock out input
     int check;
     static final int DIALOG_ID = 0;
 
+    // Spinner to eliminate ambiguity and input error when selecting an employee to add a shift for
     Spinner spinner;
+    //stores names from database so they can be output in the spinner
     ArrayList<String> names = new ArrayList<String>();
     ArrayAdapter<String> adapter;
 
@@ -39,8 +43,6 @@ public class addShift extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_shift);
-
-        db = new DatabaseHelper(this);
 
         selectSTime = (Button) findViewById(R.id.selectST);
         selectETime = (Button) findViewById(R.id.getET);
@@ -52,11 +54,12 @@ public class addShift extends AppCompatActivity {
         dateDisp = (TextView) findViewById(R.id.dateDisp);
 
         /**
-         * Spinner Adapter and Code
+         * Adapter is set to display the fist array list item by default
          */
         spinner = (Spinner) findViewById(R.id.spinner);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, names);
 
+        //displays all names of all employees
         displayNames();
 
         /*
@@ -71,7 +74,6 @@ public class addShift extends AppCompatActivity {
         /*
         ADDING START TIME
          */
-
         selectSTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,8 +95,7 @@ public class addShift extends AppCompatActivity {
         });
 
 
-
-
+        //canceling actions returning to manage shift class
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,39 +103,51 @@ public class addShift extends AppCompatActivity {
             }
         });
 
+        //saving the new shift data
+        //TODO: ADD ERROR CHECKING HERE
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = spinner.getSelectedItem().toString();
-                Cursor c = db.search("SELECT _id FROM STAFF WHERE staff_name = \"" + name +"\"");//
-                while (c.moveToNext()) {
-                    staff_no = c.getString(0);
-                }
+                try {
+                    //gets the name of the person selected in spinner
+                    String name = spinner.getSelectedItem().toString();
+                    //gets the ID for selected person
+                    Cursor c = db.search("SELECT _id FROM STAFF WHERE staff_name = \"" + name + "\"");
+                    while (c.moveToNext()) {
+                        staff_no = c.getString(0);
+                    }
 
-                boolean s = db.insertShift(Integer.parseInt(staff_no),
-                        viewStartTime.getText().toString(), viewEndTime.getText().toString(),
-                        dateDisp.getText().toString());
-                if(s)
-                    Toast.makeText(addShift.this, "Inserted", Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(addShift.this, "FAILED", Toast.LENGTH_LONG).show();
-                finish();
+                    //inserts a new shift for selected user and displays success, returns to ManageShift class
+                    boolean s = db.insertShift(Integer.parseInt(staff_no),
+                            viewStartTime.getText().toString(), viewEndTime.getText().toString(),
+                            dateDisp.getText().toString());
+                    if (s)
+                        Toast.makeText(AddShift.this, "Inserted", Toast.LENGTH_SHORT).show();
+                    else
+                        Toast.makeText(AddShift.this, "FAILED", Toast.LENGTH_LONG).show();
+                    finish();
+                } catch (Exception e) {
+                    Log.e("Insert Error", String.valueOf(e));
+                }
             }
         });
 
     }
 
     /*
-    TIME PICKER CODE
+    Used to create dialog to select the start and end time
      */
     protected Dialog onCreateDialog(int id)
     {
         if(id == DIALOG_ID) {
-            return new TimePickerDialog(addShift.this, timePickerListener, hour_x, minute_x, true);
+            return new TimePickerDialog(AddShift.this, timePickerListener, hour_x, minute_x, true);
         }
         return null;
     }
 
+    /*
+    checking which button was selected (in and out time) then outputting the appropiate time to the user
+     */
     private TimePickerDialog.OnTimeSetListener timePickerListener = new TimePickerDialog.OnTimeSetListener() {
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -158,6 +171,9 @@ public class addShift extends AppCompatActivity {
         }
     };
 
+    /*
+    Displaying all names into the spinner
+     */
     private void displayNames()
     {
         Cursor c = db.search("Select staff_name FROM STAFF");

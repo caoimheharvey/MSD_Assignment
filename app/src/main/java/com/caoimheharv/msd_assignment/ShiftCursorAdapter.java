@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 /**
  * Created by CaoimheHarvey on 11/4/16.
+ *
+ * This class servers as an adapter for the list view used in both the Clocking class and the Manage Shift class.
  */
 public class ShiftCursorAdapter extends CursorAdapter {
     public ShiftCursorAdapter(Context context, Cursor c) {
@@ -18,11 +20,16 @@ public class ShiftCursorAdapter extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
+        //sets format for the output to that in the XML file shift_row
         return LayoutInflater.from(context).inflate(R.layout.shift_row, parent, false);
     }
 
+    /*
+    Inputs the data from the cursor into the XML fields which are displayed back to the user
+     */
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
+
         TextView name_num = (TextView) view.findViewById(R.id.nameTV);
         TextView date = (TextView) view.findViewById(R.id.dateTV);
         TextView times = (TextView) view.findViewById(R.id.timesTV);
