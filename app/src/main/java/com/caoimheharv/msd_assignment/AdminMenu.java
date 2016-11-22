@@ -26,6 +26,7 @@ public class AdminMenu extends AppCompatActivity {
         shifts = (Button) findViewById(R.id.manShifts);
         settings = (Button) findViewById(R.id.setBtn);
 
+        //staff_id is final as it cannot and will not be edited or changed
         final int staff_id = getIntent().getExtras().getInt("ID");
         clocking.setOnClickListener(new View.OnClickListener() {
             @Override

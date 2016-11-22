@@ -32,18 +32,22 @@ public class Clocking extends AppCompatActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clocking);
 
-        /**
-         * GETTING STAFF ID FROM INTENT
-         */
+        //getting staff_id from intent as an int
         final int staff_id = getIntent().getExtras().getInt("ID");
+        //setting the staff_id to a global variable so it can be used in multiple classes
         staff_no = staff_id;
+        //initializing fields
         clockBtn = (Button) findViewById(R.id.cButton);
         cdt = (TextView) findViewById(R.id.cDT);
         listView = (ListView) findViewById(R.id.clockingList);
 
+        //SQL statement requests all details of the shift including the name of the staff member
+        //this is done by an inner join as the SHIFT table doesn't contain a name field
+        //this is for the specific user who is currently in the app, from this they can only see their upcoming shifts
         Cursor res = db.search("SELECT shift._id, staff_id, staff_name, start_date, start_time, end_time FROM SHIFT" +
                 " INNER JOIN STAFF ON shift.staff_id = staff._id WHERE shift.staff_id = " + staff_no);
 
+        //Outputs the upcoming shifts the user has
         try {
             ShiftCursorAdapter cursorAdapter = new ShiftCursorAdapter(getApplicationContext(), res);
             listView.setAdapter(cursorAdapter);

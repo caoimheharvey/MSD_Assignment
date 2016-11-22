@@ -99,25 +99,29 @@ public class ManageStaff extends AppCompatActivity {
                     status.setText("Standard");
             }
         });
+        //TODO: ADD ERROR CHECKING
+        alertBuilder.setCancelable(true);
 
-        alertBuilder.setCancelable(true)
-                .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+        alertBuilder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        db.insertStaff(name.getText().toString(), email.getText().toString(), phone.getText().toString(),
-                                Integer.parseInt(pin.getText().toString()), status.getText().toString());
-                        displayStaff();
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-        Dialog dialog = alertBuilder.create();
-        dialog.show();
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                db.insertStaff(name.getText().toString(), email.getText().toString(), phone.getText().toString(),
+                        Integer.parseInt(pin.getText().toString()), status.getText().toString());
+                displayStaff();
+            }
+        });
+
+        alertBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+            Dialog dialog = alertBuilder.create();
+            dialog.show();
+
     }
 
     private void updateStaff(final String id, String s_name, String s_email, String s_phone, String s_pin, String s_status){

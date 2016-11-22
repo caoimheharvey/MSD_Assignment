@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,13 +20,19 @@ import java.util.ArrayList;
  */
 public class MainActivity extends AppCompatActivity {
 
-    public DatabaseHelper myDB;
+    //creating an instance of the database
+    public DatabaseHelper myDB = new DatabaseHelper(this);
 
     Button verify;
+    //pin entered in the XML file
     EditText passcode;
+    //pin entered by user stored as an int
     int pin;
+    //array of all pins for each user in the database
     int[] pinStored = new int[50];
+    //array of all statuses per user in the database
     String[] status = new String[50];
+    //array of staff ID's per user in the database
     int[] IDs = new int[50];
 
     @Override
@@ -33,56 +40,82 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        myDB = new DatabaseHelper(this);
-
+        //initializing the XML features
         verify = (Button) findViewById(R.id.contBtn);
         passcode = (EditText) findViewById(R.id.passcode);
 
+        //on button click
         verify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (passcode.getText().toString().isEmpty()) {
-                    Toast.makeText(MainActivity.this, "MUST ENTER PIN", Toast.LENGTH_SHORT).show();
-                } else if(pin == 212) {
-                    Intent intent = new Intent(MainActivity.this, AdminMenu.class);
-                    intent.putExtra("ID", 1);
-                    passcode.setText("");
-                    startActivity(intent);
-                } else {
-                    Cursor res = myDB.search("SELECT pin, status, _id FROM STAFF");
-                    int x = 0;
-                    while (res.moveToNext()) {
-                        pinStored[x] = res.getInt(0);
-                        status[x] = res.getString(1);
-                        IDs[x] = res.getInt(2);
-                        x++;
-                    }
+                //try catch used to prevent app from crashing when invalid pin entered (0)
+                try {
+                    //checks if field is empty
+                    if (passcode.getText().toString().isEmpty()) {
+                        Toast.makeText(MainActivity.this, "MUST ENTER PIN", Toast.LENGTH_SHORT).show();
+                    //user override pin, must be entered TWICE to grant access
+                    } else if (pin == 212) {
+                        //intent to bring override to Admin Menu
+                        Intent intent = new Intent(MainActivity.this, AdminMenu.class);
 
-                    pin = Integer.parseInt(passcode.getText().toString());
+                        //transfering data via intents through classes
+                        intent.putExtra("ID", 1);
 
-                    int count = 0;
-
-                    for (int i = 0; i < pinStored.length; i++) {
-                        if (pin == pinStored[i]) {
-                            //OVERRIDE
-                            //check status
-                            checkStatus(status[i], IDs[i]);
-                            passcode.setText("");
-                            break;
-                        } else {
-                            count ++;
-                        }
-                    }
-
-                    if (count == pinStored.length) {
-                        Toast.makeText(MainActivity.this, "Not recognized pin", Toast.LENGTH_SHORT).show();
+                        //setting text for field to blank
                         passcode.setText("");
-                    }//end if
-                }//end else
+                        startActivity(intent);
+                    //if the pin field isn't empty and isn't 212 the following will execute
+                    } else {
+
+                        //cursor to get relevant details from STAFF table
+                        Cursor res = myDB.search("SELECT pin, status, _id FROM STAFF");
+
+                        int x = 0; //counter for while loop parsing
+
+                        //while loop to parse values from cursor results into arrays
+                        while (res.moveToNext()) {
+                            pinStored[x] = res.getInt(0);
+                            status[x] = res.getString(1);
+                            IDs[x] = res.getInt(2);
+                            x++;
+                        }
+
+                        pin = Integer.parseInt(passcode.getText().toString());
+
+                        int count = 0; //counter for for loop
+
+
+                        //checks if a pin is stored in the database, if it is then break loop and check user status,
+                        //else increase counter by 1
+                        for (int i = 0; i < pinStored.length; i++) {
+                            if (pin == pinStored[i]) {
+                                //check status
+                                checkStatus(status[i], IDs[i]);
+                                passcode.setText("");
+                                break;
+                            } else {
+                                count++;
+                            }
+                        }
+                        //if counter is the same as the array length display error message
+                        if (count == pinStored.length) {
+                            Toast.makeText(MainActivity.this, "Not recognized pin", Toast.LENGTH_SHORT).show();
+                            passcode.setText("");
+                        }//end if
+                    }//end else
+                } catch (Exception e){
+                    //sets text to 0 and outputs exception in log
+                    passcode.setText("");
+                    Log.e("Error", String.valueOf(e));
+                }
             }//end inner annoynymous
         });//end verify
     }//end onCreate
 
+    /*
+    Method to check status of user based on their ID and then passes them to the
+    appropiate page
+     */
     private void checkStatus(String status, int id)
     {
         if(status.equals("Admin")) {
