@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if(pin == 212) {
                     Intent intent = new Intent(MainActivity.this, AdminMenu.class);
                     intent.putExtra("ID", 1);
+                    passcode.setText("");
                     startActivity(intent);
                 } else {
                     Cursor res = myDB.search("SELECT pin, status, _id FROM STAFF");

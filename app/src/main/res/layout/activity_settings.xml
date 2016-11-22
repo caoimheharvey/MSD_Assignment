@@ -7,14 +7,19 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.caoimheharv.msd_assignment.Settings">
+    tools:context="com.caoimheharv.msd_assignment.Settings"
+    android:background="@drawable/gradient3">
 
-    <TextView
+
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Pending"
-        android:id="@+id/textView6"
+        android:text="Log Out"
+        android:id="@+id/logOutBtn"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="#8affffff" />
 </RelativeLayout>

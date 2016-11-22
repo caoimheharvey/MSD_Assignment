@@ -22,6 +22,8 @@ public class Clocking extends AppCompatActivity implements View.OnClickListener 
 
     int staff_no;
 
+    boolean hasStart = false;
+
     Button clockBtn;
     TextView cdt;
     @Override
@@ -60,9 +62,7 @@ public class Clocking extends AppCompatActivity implements View.OnClickListener 
         SimpleDateFormat df = new SimpleDateFormat("HH:mm");
         String formattedDate = df.format(c.getTime());
         db.updateClocked(row_id, formattedDate);
-        clockBtn.setText("Clock In");
-        //Toast.makeText(getApplicationContext(), "CLOCKED OUT at " + formattedDate, Toast.LENGTH_SHORT).show();
-
+        Toast.makeText(getApplicationContext(), "CLOCKED OUT at " + formattedDate, Toast.LENGTH_SHORT).show();
     }
 
     private void getTime()
@@ -92,14 +92,27 @@ public class Clocking extends AppCompatActivity implements View.OnClickListener 
                 name = res.getString(4);
             }
 
-            if (start != null && end != null) {
+            //Log.i("Time Values", "Start: " + start + "---- End: " + end);
+
+            if (hasStart == false) {
+
+                clockBtn.setText("Clock In");
                 clockIn(staff_no);
+                Log.i("Clock In", "Start: " + start + "---- End: " + end);
+                hasStart = true;
             } else {
+                clockBtn.setText("Clock Out");
                 clockOut(r_id);
-                String content = name + "(" + staff_no + ")" + " has clocked out of their shift at " + end + ".\n\n" +
-                        "They clocked in at " + start + ".\r\nKind Regards, Clocking System";
+                String content = name + "(" + staff_no + ")" + " In Time: " + start + "." +
+                        " Out Time: " + end + "." +
+                        "Kind Regards,\nClocking System";
+                Log.i("Clock Out", "Start: " + start + "---- End: " + end);
                 sendEmail("Staff Number: " + staff_no, content);
+                hasStart = false;
+
             }
+
+
 
 
         } catch (Exception e){
@@ -117,6 +130,6 @@ public class Clocking extends AppCompatActivity implements View.OnClickListener 
         SendEmail sm = new SendEmail(this, dest, subj, content);
 
         //Executing sendmail to send email
-        sm.execute();
+        //sm.execute();
     }
 }
