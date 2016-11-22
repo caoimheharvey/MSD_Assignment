@@ -51,18 +51,20 @@ public class ManageShifts extends AppCompatActivity {
 
                 try{
                     //gets all the shift details for the selected date
-                    //TODO: still buggy, need to improve
                     Cursor res = myDB.search("SELECT shift._id, staff_id, staff_name, start_date, start_time, end_time FROM SHIFT" +
                         " INNER JOIN STAFF ON shift.staff_id = staff._id WHERE start_date = \"" + selectedDate + "\"");
 
-                    //if there are no shifts display message
+                    //if there are no shifts display message and keep list empty
+                    //else display shifts for selected date in list
                     if (res.getCount() == 0) {
-                        showMessage("Shifts: " + selectedDate, "No Shifts");
+                        Toast.makeText(getApplicationContext(), "No Shifts", Toast.LENGTH_SHORT).show();
+                        ShiftCursorAdapter cursorAdapter = new ShiftCursorAdapter(ManageShifts.this, null);
+                        listView.setAdapter(cursorAdapter);
                         return;
+                    }else {
+                        ShiftCursorAdapter cursorAdapter = new ShiftCursorAdapter(ManageShifts.this, res);
+                        listView.setAdapter(cursorAdapter);
                     }
-
-                    ShiftCursorAdapter cursorAdapter = new ShiftCursorAdapter(ManageShifts.this, res);
-                    listView.setAdapter(cursorAdapter);
                 } catch (Exception e) {
                     Log.e("SELECTING CALENDAR", String.valueOf(e));
                 }

@@ -115,24 +115,35 @@ public class ManageStaff extends AppCompatActivity {
         //TODO: ADD ERROR CHECKING
 
         //builds the alert dialog and allows user to click out of dialog by hitting the background
-        alertBuilder.setCancelable(true)
-                //adds a positive button for an action
-                .setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //inserts and displays new staff
-                        db.insertStaff(name.getText().toString(), email.getText().toString(), phone.getText().toString(),
-                            Integer.parseInt(pin.getText().toString()), status.getText().toString());
-                        displayStaff();
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //cancels action
-                        dialog.cancel();
-                    }
-                });
+        try {
+            alertBuilder.setCancelable(true)
+                    //adds a positive button for an action
+                    .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //inserts and displays new staff
+                            //TODO: add error checking on PIN input
+                            if(pin.getText().toString().isEmpty() || name.getText().toString().isEmpty()) {
+                                Toast.makeText(getApplicationContext(), "PLEASE ENTER DETAILS", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+                            db.insertStaff(name.getText().toString(), email.getText().toString(), phone.getText().toString(),
+                                    Integer.parseInt(pin.getText().toString()), status.getText().toString());
+                            displayStaff();
+
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //cancels action
+                            dialog.cancel();
+                        }
+                    });
+        } catch (Exception e ){
+            Log.e("ADD STAFF ERROR", String.valueOf(e));
+        }
         //displays alert Dialog
         Dialog dialog = alertBuilder.create();
         dialog.show();

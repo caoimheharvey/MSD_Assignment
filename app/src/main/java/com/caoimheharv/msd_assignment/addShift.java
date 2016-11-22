@@ -104,7 +104,7 @@ public class AddShift extends AppCompatActivity {
         });
 
         //saving the new shift data
-        //TODO: ADD ERROR CHECKING HERE
+        //TODO: ADD ERROR CHECKING HERE FOR WHEN FIELDS ARE EMPTY
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,7 +116,15 @@ public class AddShift extends AppCompatActivity {
                     while (c.moveToNext()) {
                         staff_no = c.getString(0);
                     }
-
+                    //checking validity of the input to ensure no fields are empty
+                    if(viewEndTime.getText().toString().isEmpty()) {
+                        Toast.makeText(getApplicationContext(), "Please enter an END time", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if(viewStartTime.getText().toString().isEmpty()) {
+                        Toast.makeText(getApplicationContext(), "Please enter a START time", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     //inserts a new shift for selected user and displays success, returns to ManageShift class
                     boolean s = db.insertShift(Integer.parseInt(staff_no),
                             viewStartTime.getText().toString(), viewEndTime.getText().toString(),
