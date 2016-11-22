@@ -2,34 +2,45 @@ package com.caoimheharv.msd_assignment;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.database.Cursor;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CursorAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class addShift extends AppCompatActivity {
 
-    DatabaseHelper myDB;
+    DatabaseHelper db;
 
     Button selectSTime, selectETime, save, cancel;
     TextView viewStartTime, viewEndTime, dateDisp;
-    EditText staff_no;
+    String staff_no;
 
     int hour_x, minute_x;
     int check;
     static final int DIALOG_ID = 0;
+
+    Spinner spinner;
+    ArrayList<String> names = new ArrayList<String>();
+    ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_shift);
 
-        myDB = new DatabaseHelper(this);
+        db = new DatabaseHelper(this);
 
         selectSTime = (Button) findViewById(R.id.selectST);
         selectETime = (Button) findViewById(R.id.getET);
@@ -40,7 +51,13 @@ public class addShift extends AppCompatActivity {
         viewEndTime = (TextView) findViewById(R.id.EndTime);
         dateDisp = (TextView) findViewById(R.id.dateDisp);
 
-        staff_no = (EditText) findViewById(R.id.getStaffNo);
+        /**
+         * Spinner Adapter and Code
+         */
+        spinner = (Spinner) findViewById(R.id.spinner);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, names);
+
+        displayNames();
 
         /*
         GETTING DATE FROM INTENT
@@ -76,6 +93,8 @@ public class addShift extends AppCompatActivity {
         });
 
 
+
+
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,9 +105,13 @@ public class addShift extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: ADD CODE TO CHECK IF STAFF_NO IS EMPTY
-                //TODO: find way to
-                boolean s = myDB.insertShift(Integer.parseInt(staff_no.getText().toString()),
+                String name = spinner.getSelectedItem().toString();
+                Cursor c = db.search("SELECT _id FROM STAFF WHERE staff_name = \"" + name +"\"");//
+                while (c.moveToNext()) {
+                    staff_no = c.getString(0);
+                }
+
+                boolean s = db.insertShift(Integer.parseInt(staff_no),
                         viewStartTime.getText().toString(), viewEndTime.getText().toString(),
                         dateDisp.getText().toString());
                 if(s)
@@ -134,4 +157,14 @@ public class addShift extends AppCompatActivity {
 
         }
     };
+
+    private void displayNames()
+    {
+        Cursor c = db.search("Select staff_name FROM STAFF");
+        while (c.moveToNext())
+        {
+            names.add(c.getString(0));
+        }
+        spinner.setAdapter(adapter);
+    }
 }//end addShift

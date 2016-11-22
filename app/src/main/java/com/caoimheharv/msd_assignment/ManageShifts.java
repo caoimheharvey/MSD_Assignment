@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -44,25 +45,25 @@ public class ManageShifts extends AppCompatActivity {
                 selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
 
                 //NOT WORKING
-                Cursor res = myDB.search("SELECT shift._id, staff_id, staff_name, start_date, start_time, end_time FROM SHIFT" +
-                        " INNER JOIN STAFF ON shift.staff_id = staff._id");//
+                try{
+                    Cursor res = myDB.search("SELECT shift._id, staff_id, staff_name, start_date, start_time, end_time FROM SHIFT" +
+                        " INNER JOIN STAFF ON shift.staff_id = staff._id");
 
-                if (res.getCount() == 0) {
-                    // show message
-                    showMessage("Shifts: " + selectedDate, "No Shifts");
-                    return;
-                }
-                try {
+                    if (res.getCount() == 0) {
+                        showMessage("Shifts: " + selectedDate, "No Shifts");
+                        return;
+                    }
+
                     ShiftCursorAdapter cursorAdapter = new ShiftCursorAdapter(ManageShifts.this, res);
                     listView.setAdapter(cursorAdapter);
                 } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), "Internal Failure", Toast.LENGTH_SHORT).show();
+                    Log.e("SELECTING CALENDAR", String.valueOf(e));
                 }
 
             }
         });
 
-        add.setOnClickListener(new View.OnClickListener() {
+       add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(ManageShifts.this, addShift.class);

@@ -25,6 +25,7 @@ public class Clocking extends AppCompatActivity implements View.OnClickListener 
     boolean hasStart = false;
 
     Button clockBtn;
+    ListView listView;
     TextView cdt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +35,22 @@ public class Clocking extends AppCompatActivity implements View.OnClickListener 
         /**
          * GETTING STAFF ID FROM INTENT
          */
-
         final int staff_id = getIntent().getExtras().getInt("ID");
         staff_no = staff_id;
         clockBtn = (Button) findViewById(R.id.cButton);
         cdt = (TextView) findViewById(R.id.cDT);
+        listView = (ListView) findViewById(R.id.clockingList);
+
+        Cursor res = db.search("SELECT shift._id, staff_id, staff_name, start_date, start_time, end_time FROM SHIFT" +
+                " INNER JOIN STAFF ON shift.staff_id = staff._id WHERE shift.staff_id = " + staff_no);
+
+        try {
+            ShiftCursorAdapter cursorAdapter = new ShiftCursorAdapter(getApplicationContext(), res);
+            listView.setAdapter(cursorAdapter);
+
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Internal Failure", Toast.LENGTH_SHORT).show();
+        }
 
         getTime();
         clockBtn.setOnClickListener(this);

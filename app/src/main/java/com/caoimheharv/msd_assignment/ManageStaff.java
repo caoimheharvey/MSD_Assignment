@@ -29,7 +29,7 @@ public class ManageStaff extends AppCompatActivity {
 
     DatabaseHelper db = new DatabaseHelper(this);
 
-    Button add, update;
+    Button add;
 
     private ListView listView;
 
@@ -39,7 +39,6 @@ public class ManageStaff extends AppCompatActivity {
         setContentView(R.layout.activity_manage_staff);
 
         add = (Button) findViewById(R.id.addBtn);
-        //update = (Button) findViewById(R.id.updateBtn);
         listView = (ListView) findViewById(R.id.stafflist);
 
         displayStaff();
@@ -68,8 +67,6 @@ public class ManageStaff extends AppCompatActivity {
             Cursor res = db.search("SELECT * FROM staff");
 
             if (res.getCount() == 0) {
-                // show message
-                Toast.makeText(getApplicationContext(), "Table Empty", Toast.LENGTH_SHORT).show();
                 return;
             }
 
