@@ -14,20 +14,31 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".MainActivity">
+
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AdminMenu" />
-        <activity android:name=".ManageStaff" />
-        <activity android:name=".ManageShifts" />
-        <activity android:name=".UpdateShift" />
-        <activity android:name=".Settings" />
-        <activity android:name=".AddShift"/>
-        <activity android:name=".Clocking"></activity>
+        <!-- screenOrientation cannot be rotated from portrait -->
+        <activity android:name=".AdminMenu"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ManageStaff"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ManageShifts"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".UpdateShift"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Settings"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".AddShift"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Clocking"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

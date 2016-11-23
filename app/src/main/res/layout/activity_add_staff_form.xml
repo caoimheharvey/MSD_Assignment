@@ -51,5 +51,6 @@
         android:inputType="number"
         android:hint="Pin"
         android:ems="10"
+        android:maxLength="6"
         android:id="@+id/addPin" />
 </LinearLayout>

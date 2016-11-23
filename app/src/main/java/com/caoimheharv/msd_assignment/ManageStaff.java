@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.Toast;
 
+
 /**
  * Allows admin to select from 3 different actions.
  * 1. Viewing all existing staff in Database
@@ -112,8 +113,8 @@ public class ManageStaff extends AppCompatActivity {
                     status.setText("Standard");
             }
         });
-        //TODO: ADD ERROR CHECKING
 
+        //TODO: ADD ERROR CHECKING
         //builds the alert dialog and allows user to click out of dialog by hitting the background
         try {
             alertBuilder.setCancelable(true)
@@ -123,14 +124,23 @@ public class ManageStaff extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             //inserts and displays new staff
                             //TODO: add error checking on PIN input
-                            if(pin.getText().toString().isEmpty() || name.getText().toString().isEmpty()) {
-                                Toast.makeText(getApplicationContext(), "PLEASE ENTER DETAILS", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
 
-                            db.insertStaff(name.getText().toString(), email.getText().toString(), phone.getText().toString(),
-                                    Integer.parseInt(pin.getText().toString()), status.getText().toString());
-                            displayStaff();
+                            if (pin.getText().toString().isEmpty() || pin.getText().toString().length() < 3) {
+                                Toast.makeText(getApplicationContext(), "Please Enter Pin Between 3 and 6 characters", Toast.LENGTH_SHORT).show();
+                                return;
+                            } else if ( name.getText().toString().isEmpty()) {
+                                Toast.makeText(getApplicationContext(), "Please Enter Name", Toast.LENGTH_SHORT).show();
+                                return;
+                            } else if (email.getText().toString().isEmpty()) {
+                                Toast.makeText(getApplicationContext(), "Please Enter Email", Toast.LENGTH_SHORT).show();
+                                return;
+                            } else {
+                                db.insertStaff(name.getText().toString(), email.getText().toString(), phone.getText().toString(),
+                                        Integer.parseInt(pin.getText().toString()), status.getText().toString());
+                                displayStaff();
+
+                                dialog.dismiss();
+                            }
 
                         }
                     })
@@ -141,13 +151,31 @@ public class ManageStaff extends AppCompatActivity {
                             dialog.cancel();
                         }
                     });
+
+            //displays alert Dialog
+            final Dialog dialog = alertBuilder.create();
+            dialog.show();
+
+
+
+/*
+    Attempted to use the getButton() method for the Alert Dialog class, however Android Studio couldnt
+    detect the getButton method in the Alert dialog class
+
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Boolean wantToCloseDialog = false;
+                    //Do stuff, possibly set wantToCloseDialog to true then...
+                    if (wantToCloseDialog)
+                        dialog.dismiss();
+                    //else dialog stays open. Make sure you have an obvious way to close the dialog especially if you set cancellable to false.
+                }
+            });
+*/
         } catch (Exception e ){
             Log.e("ADD STAFF ERROR", String.valueOf(e));
         }
-        //displays alert Dialog
-        Dialog dialog = alertBuilder.create();
-        dialog.show();
-
     }
 
     /*

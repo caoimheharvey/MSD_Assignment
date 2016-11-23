@@ -104,7 +104,6 @@ public class AddShift extends AppCompatActivity {
         });
 
         //saving the new shift data
-        //TODO: ADD ERROR CHECKING HERE FOR WHEN FIELDS ARE EMPTY
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

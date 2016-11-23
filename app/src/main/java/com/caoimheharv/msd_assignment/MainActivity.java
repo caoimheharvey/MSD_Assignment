@@ -50,11 +50,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //try catch used to prevent app from crashing when invalid pin entered (0)
                 try {
-                    //checks if field is empty
-                    if (passcode.getText().toString().isEmpty()) {
-                        Toast.makeText(MainActivity.this, "MUST ENTER PIN", Toast.LENGTH_SHORT).show();
+                    //checks if field data is less than 3
+                    if (passcode.getText().toString().length() < 3) {
+                        Toast.makeText(MainActivity.this, "Value entered is too short", Toast.LENGTH_SHORT).show();
                     //user override pin, must be entered TWICE to grant access
-                    } else if (pin == 212) {
+                    } else if (pin == 12345) {
                         //intent to bring override to Admin Menu
                         Intent intent = new Intent(MainActivity.this, AdminMenu.class);
 

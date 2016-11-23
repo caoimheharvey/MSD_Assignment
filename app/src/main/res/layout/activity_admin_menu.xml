@@ -13,7 +13,7 @@
     android:background="@drawable/gradient3">
 
     <Button
-        android:layout_width="331dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Clocking"
         android:id="@+id/clockBtn"
@@ -26,7 +26,7 @@
         android:layout_weight="0.05"/>
 
     <Button
-        android:layout_width="331dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Manage Staff"
         android:id="@+id/manStaff"
@@ -39,7 +39,7 @@
         android:layout_weight="0.05"/>
 
     <Button
-        android:layout_width="330dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Manage Shifts"
         android:id="@+id/manShifts"
@@ -52,7 +52,7 @@
         android:layout_weight="0.05"/>
 
     <Button
-        android:layout_width="330dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Settings"
         android:id="@+id/setBtn"
