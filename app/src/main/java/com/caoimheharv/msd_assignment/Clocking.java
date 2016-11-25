@@ -1,6 +1,4 @@
 /**
- * https://www.simplifiedcoding.net/android-email-app-using-javamail-api-in-android-studio/
- *
  * Class allows user to clock in and out of shifts and view upcoming shifts based on their ID
  * Once a shift has been clocked out of an email is automatically sent to a pre-determined destination
  * with the contents describing the users shift
@@ -115,8 +113,7 @@ public class Clocking extends AppCompatActivity implements View.OnClickListener 
             Cursor res = db.search("SELECT CLOCKED_SHIFT._id, staff_id, start, end, staff.staff_name FROM CLOCKED_SHIFT" +
                     " INNER JOIN STAFF ON CLOCKED_SHIFT.STAFF_ID = STAFF._ID");
             if (res.getCount() == 0) {
-                Toast.makeText(getApplicationContext(), "First Insert", Toast.LENGTH_SHORT).show();
-                clockIn(staff_no);
+                //Toast.makeText(getApplicationContext(), "First Insert", Toast.LENGTH_SHORT).show();
             }
             while(res.moveToNext()) {
                 r_id = res.getString(0);

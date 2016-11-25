@@ -18,6 +18,10 @@ import javax.mail.internet.MimeMessage;
 
 /**
  * Created by CaoimheHarvey on 11/13/16.
+ *
+ * Reference: The following code is from: https://www.simplifiedcoding.net/android-email-app-using-javamail-api-in-android-studio/
+ *
+ * Class to allow an email to be sent from within the app using the STMP Google Server.
  */
 public class SendEmail extends AsyncTask<Void,Void,Void> {
 
@@ -41,14 +45,14 @@ public class SendEmail extends AsyncTask<Void,Void,Void> {
         this.subject = subject;
         this.textMessage = textMessage;
     }
-
+        //method to execute before the email has been sent displaying progress dialog
         protected void onPreExecute(){
             super.onPreExecute();
             //Showing progress dialog while sending email
             progressDialog = ProgressDialog.show(context,"Clocking Out","Please wait...",false,false);
         }
 
-
+        //method to execute after the email has been sent
         protected void onPostExecute(Void aVoid){
             super.onPostExecute(aVoid);
             //Dismissing the progress dialog
@@ -57,13 +61,12 @@ public class SendEmail extends AsyncTask<Void,Void,Void> {
             Toast.makeText(context, "Clocked Out", Toast.LENGTH_LONG).show();
         }
 
-
+        //activities to be done in the background of the application
         protected Void doInBackground(Void...params) {
             //Creating properties
             Properties props = new Properties();
 
             //Configuring properties for gmail
-            //If you are not using gmail you may need to change the values
             props.put("mail.smtp.host", "smtp.gmail.com");
             props.put("mail.smtp.socketFactory.port", "465");
             props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");

@@ -15,6 +15,8 @@ import java.sql.SQLException;
  * Database: BusinessClocking
  * Contains 3 tables which all link up using the staff_no.
  * Here exists the code to create tables, update rows, insert rows, and delete rows.
+ *
+ * Reference: http://www.codebind.com/android-tutorials-and-examples/android-sqlite-tutorial-example/
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
