@@ -1,4 +1,4 @@
-package com.caoimheharv.msd_assignment;
+package com.caoimheharv.msd_assignment.Visual_Menus;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -10,7 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import com.caoimheharv.msd_assignment.Action_Controllers.DatabaseHelper;
+import com.caoimheharv.msd_assignment.R;
 
 /*
  This activity defines a log in page where users enter their unique pin which is

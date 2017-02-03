@@ -1,11 +1,9 @@
-package com.caoimheharv.msd_assignment;
+package com.caoimheharv.msd_assignment.Action_Controllers;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +16,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.Toast;
+
+import com.caoimheharv.msd_assignment.Adapters.StaffCursorAdapter;
+import com.caoimheharv.msd_assignment.R;
 
 
 /**
@@ -156,23 +157,6 @@ public class ManageStaff extends AppCompatActivity {
             final Dialog dialog = alertBuilder.create();
             dialog.show();
 
-
-
-/*
-    Attempted to use the getButton() method for the Alert Dialog class, however Android Studio couldnt
-    detect the getButton method in the Alert dialog class
-
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Boolean wantToCloseDialog = false;
-                    //Do stuff, possibly set wantToCloseDialog to true then...
-                    if (wantToCloseDialog)
-                        dialog.dismiss();
-                    //else dialog stays open. Make sure you have an obvious way to close the dialog especially if you set cancellable to false.
-                }
-            });
-*/
         } catch (Exception e ){
             Log.e("ADD STAFF ERROR", String.valueOf(e));
         }

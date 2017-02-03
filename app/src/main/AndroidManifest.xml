@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
-        <activity android:name=".MainActivity"
+        <activity android:name=".Visual_Menus.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,20 +24,20 @@
             </intent-filter>
         </activity>
         <!-- screenOrientation cannot be rotated from portrait -->
-        <activity android:name=".AdminMenu"
+        <activity android:name=".Visual_Menus.AdminMenu"
             android:screenOrientation="portrait"
             />
-        <activity android:name=".ManageStaff"
+        <activity android:name=".Action_Controllers.ManageStaff"
             android:screenOrientation="portrait"/>
-        <activity android:name=".ManageShifts"
+        <activity android:name=".Action_Controllers.ManageShifts"
             android:screenOrientation="portrait"/>
-        <activity android:name=".UpdateShift"
+        <activity android:name=".Actions.UpdateShift"
             android:screenOrientation="portrait"/>
-        <activity android:name=".Settings"
+        <activity android:name=".Visual_Menus.Settings"
             android:screenOrientation="portrait"/>
-        <activity android:name=".AddShift"
+        <activity android:name=".Actions.AddShift"
             android:screenOrientation="portrait"/>
-        <activity android:name=".Clocking"
+        <activity android:name=".Visual_Menus.Clocking"
             android:screenOrientation="portrait"/>
     </application>
 

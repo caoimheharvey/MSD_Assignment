@@ -3,7 +3,7 @@
  * Once a shift has been clocked out of an email is automatically sent to a pre-determined destination
  * with the contents describing the users shift
  */
-package com.caoimheharv.msd_assignment;
+package com.caoimheharv.msd_assignment.Visual_Menus;
 
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +14,11 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.caoimheharv.msd_assignment.Action_Controllers.DatabaseHelper;
+import com.caoimheharv.msd_assignment.Action_Controllers.SendEmail;
+import com.caoimheharv.msd_assignment.Adapters.ShiftCursorAdapter;
+import com.caoimheharv.msd_assignment.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

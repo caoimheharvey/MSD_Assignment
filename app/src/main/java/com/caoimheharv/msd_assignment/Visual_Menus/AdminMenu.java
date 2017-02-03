@@ -1,10 +1,14 @@
-package com.caoimheharv.msd_assignment;
+package com.caoimheharv.msd_assignment.Visual_Menus;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.caoimheharv.msd_assignment.Action_Controllers.ManageShifts;
+import com.caoimheharv.msd_assignment.Action_Controllers.ManageStaff;
+import com.caoimheharv.msd_assignment.R;
 
 /**
  * ADMINMENU: Allows the admin to select one of 4 options to proceed with once they

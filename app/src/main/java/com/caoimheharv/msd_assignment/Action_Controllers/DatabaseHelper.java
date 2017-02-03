@@ -1,4 +1,4 @@
-package com.caoimheharv.msd_assignment;
+package com.caoimheharv.msd_assignment.Action_Controllers;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -49,7 +49,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_1);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_2);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_3);
-        db.execSQL("DROP TABLE IF EXISTS trial");
         onCreate(db);
     }
 
@@ -159,7 +158,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     CODE TO GET SPECIFIC X
     one of the parameters is the entirety of the select statement which is read in
      */
-
     public Cursor search(String query) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery(query, null);//

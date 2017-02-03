@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.caoimheharv.msd_assignment.Settings"
+    tools:context=".Visual_Menus.Settings"
     android:background="@drawable/gradient3">
 
 

@@ -1,4 +1,4 @@
-package com.caoimheharv.msd_assignment;
+package com.caoimheharv.msd_assignment.Action_Controllers;
 /**
  * In this class the admin user can add, update and view shifts.
  * If the user wishes to add a shift they can click on the date they wish to add the shift
@@ -19,6 +19,11 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.caoimheharv.msd_assignment.Actions.AddShift;
+import com.caoimheharv.msd_assignment.Adapters.ShiftCursorAdapter;
+import com.caoimheharv.msd_assignment.R;
+import com.caoimheharv.msd_assignment.Actions.UpdateShift;
 
 public class ManageShifts extends AppCompatActivity {
 

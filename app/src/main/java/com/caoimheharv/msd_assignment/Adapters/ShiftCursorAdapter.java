@@ -1,4 +1,4 @@
-package com.caoimheharv.msd_assignment;
+package com.caoimheharv.msd_assignment.Adapters;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
+
+import com.caoimheharv.msd_assignment.R;
 
 /**
  * Created by CaoimheHarvey on 11/4/16.

@@ -1,4 +1,4 @@
-package com.caoimheharv.msd_assignment;
+package com.caoimheharv.msd_assignment.Actions;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.caoimheharv.msd_assignment.Action_Controllers.DatabaseHelper;
+import com.caoimheharv.msd_assignment.R;
 
 /**
  * Updates an existing shift's details for a particular user by clicking on the list item

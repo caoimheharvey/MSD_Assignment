@@ -1,4 +1,4 @@
-package com.caoimheharv.msd_assignment;
+package com.caoimheharv.msd_assignment.Actions;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -13,6 +13,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.caoimheharv.msd_assignment.Action_Controllers.DatabaseHelper;
+import com.caoimheharv.msd_assignment.R;
 
 import java.util.ArrayList;
 /**
@@ -54,12 +57,12 @@ public class AddShift extends AppCompatActivity {
         dateDisp = (TextView) findViewById(R.id.dateDisp);
 
         /**
-         * Adapter is set to display the fist array list item by default
+         * Adapter is set to display the first array list item by default
          */
         spinner = (Spinner) findViewById(R.id.spinner);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, names);
 
-        //displays all names of all employees
+        //displays all names of all employees in spinner
         displayNames();
 
         /*
