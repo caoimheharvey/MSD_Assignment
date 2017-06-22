@@ -15,3 +15,11 @@ Admin can log in and clock in just like the staff member. Admin status allows th
 <h3>System Operations: </h3>
 
 Once system has been activated by the business it goes to a log in page in which the user needs to enter their pin. The pin in then checked against the Staff database and if it exists then it checks if the pin corresponds to someone of an admin status or not. If it corresponds to an admin status then the system displays the options that the admin has, if not, it allows the user to clock in, view hours, and clock out. If pin is not in system then the system returns an error message. System emails admin when someone is late to their shift or forgets to clock out. 
+
+<h3>TO DO:</h3>
+<ul>
+<li>Add Hashing of the users passcodes for security</li>
+<li>Have a functional signing out option</li>
+<li>Fix any bugs with clocking out of a shift</li>
+<li>Improve shift scheduling module</li>
+</ul>
